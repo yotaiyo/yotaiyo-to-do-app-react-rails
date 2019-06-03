@@ -18,6 +18,8 @@ export interface TodoType {
 type ToDoScreenState = {
     todoInput: string
     todoList: TodoType[]
+    showOnlyCompleted: boolean
+    showOnlyActive: boolean
 }
 
 const Wrapper = styled.div`
@@ -43,7 +45,9 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         super(props)
         this.state = {
           todoInput: '',
-          todoList: []
+          todoList: [],
+          showOnlyCompleted: false,
+          showOnlyActive: false
         }
     }
 
@@ -73,7 +77,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     render() {
-        const { todoInput, todoList } = this.state 
+        const { todoInput, todoList, showOnlyActive, showOnlyCompleted } = this.state 
 
         const onChangeText = (value: string) => {
             this.setState({ todoInput: value })
@@ -94,6 +98,20 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             })
         }
 
+        const onClickAll = () => {
+            this.setState({ showOnlyActive: false, showOnlyCompleted: false })
+        }
+        
+        const onClickCompleted = () => {
+            this.setState({ showOnlyActive: false, showOnlyCompleted: true })
+
+        }
+        
+        const onClickActive = () => {
+            this.setState({ showOnlyActive: true, showOnlyCompleted: false })
+
+        }
+
         return (
             <Wrapper>
                 <LeftWrapper>
@@ -101,9 +119,26 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                 </LeftWrapper>
                 <RightWrapper>
                     <Header />
-                    <TodoInput todoInput={todoInput} onChangeText={onChangeText} onClickAddButton={onClickAddButton} />
-                    <Todos todoList={todoList} onClickCheckButton={onClickCheckButton}/>
-                    <Footer />
+                    <TodoInput 
+                        todoInput={todoInput} 
+                        onChangeText={onChangeText} 
+                        onClickAddButton={onClickAddButton}
+                        showOnlyCompleted={showOnlyCompleted} 
+                        showOnlyActive={showOnlyActive} 
+                    />
+                    <Todos 
+                        todoList={todoList} 
+                        onClickCheckButton={onClickCheckButton}
+                        showOnlyCompleted={showOnlyCompleted} 
+                        showOnlyActive={showOnlyActive}
+                    />
+                    <Footer 
+                        onClickAll={onClickAll} 
+                        onClickCompleted={onClickCompleted} 
+                        onClickActive={onClickActive}
+                        showOnlyCompleted={showOnlyCompleted} 
+                        showOnlyActive={showOnlyActive} 
+                    />
                 </RightWrapper>
             </Wrapper>
         )}

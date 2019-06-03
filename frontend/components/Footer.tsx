@@ -1,6 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
 
+interface FooterType {
+    onClickAll: () => void
+    onClickCompleted: () => void
+    onClickActive: () => void
+    showOnlyCompleted: boolean
+    showOnlyActive: boolean
+}
+
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -27,16 +35,25 @@ const CircleButton = styled.img`
     margin-top: 5px;
 ` 
 
-export const Footer = () => {
+export const Footer = ({ onClickAll, onClickCompleted, onClickActive, showOnlyCompleted, showOnlyActive }: FooterType) => {
     return (
         <Wrapper>
-            <SquereButton>
+            <SquereButton
+                style={{ backgroundColor: !showOnlyCompleted && !showOnlyActive ? '#EEEEEE' : undefined }}
+                onClick={onClickAll}
+            >
                 All
             </SquereButton>
-            <SquereButton >
+            <SquereButton 
+                style={{ backgroundColor: showOnlyCompleted ? '#EEEEEE' : undefined }}
+                onClick={onClickCompleted}
+            >
                 Completed
             </SquereButton>
-            <SquereButton style={{ borderRight: 'solid 1px #CCCCCC' }}>
+            <SquereButton 
+                style={{ backgroundColor: showOnlyActive ? '#EEEEEE' : undefined, borderRight: 'solid 1px #CCCCCC' }}
+                onClick={onClickActive}
+            >
                 Active
             </SquereButton>
             <CircleButton

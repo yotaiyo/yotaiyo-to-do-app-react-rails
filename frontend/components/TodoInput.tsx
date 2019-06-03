@@ -5,6 +5,8 @@ interface TodoInputType {
     todoInput: string
     onChangeText: (value: string) => void
     onClickAddButton: (todoInput: string) => void
+    showOnlyCompleted: boolean
+    showOnlyActive: boolean
 }
 
 const TodoInputWrapper = styled.div`

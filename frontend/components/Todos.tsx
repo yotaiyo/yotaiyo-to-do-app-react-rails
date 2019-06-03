@@ -5,6 +5,8 @@ import { TodoType } from '../pages/ToDoScreen'
 interface TodosType {
     todoList: TodoType[]
     onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean}) => void
+    showOnlyCompleted: boolean
+    showOnlyActive: boolean
 }
 
 const Wrapper = styled.div`
@@ -38,24 +40,33 @@ const ToggleButton = styled.img`
     border-left: solid 1px #CCCCCC;
 `
 
-export const Todos = ({ todoList, onClickCheckButton }: TodosType) => {
+export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnlyActive }: TodosType) => {
     let listNum = 0
+    if (todoList.length === 0) {
+        return <Wrapper>Todoはありません。</Wrapper>
+    }
     return(
         <Wrapper>
             {todoList.map((todo) => {
                 const { id, title, completed } = todo
-                listNum += 1 
+                const showCompleted = showOnlyCompleted ? completed : true
+                const showActive = showOnlyActive ? !completed : true 
+                const show = showCompleted && showActive
+                listNum += show ? 1 : 0 
 
                 return (
-                    <TodoCard key={listNum} style={{ borderTop: listNum === 1 ? 'solid 1px #CCCCCC' : undefined }}>
-                        <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{title}</TodoBody>
-                        <ToggleButton 
-                            src={completed ? require('../public/images/check-black.png') : require('../public/images/check-gray.png')} 
-                            alt='check'
-                            onClick={() => onClickCheckButton({ id, completed })}
-                        />
-                    </TodoCard>
-            )})} 
+                    show ?
+                        <TodoCard key={listNum} style={{ borderTop: listNum === 1 ? 'solid 1px #CCCCCC' : undefined }}>
+                            <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{title}</TodoBody>
+                            <ToggleButton 
+                                src={completed ? require('../public/images/check-black.png') : require('../public/images/check-gray.png')} 
+                                alt='check'
+                                onClick={() => onClickCheckButton({ id, completed })}
+                            />
+                        </TodoCard>
+                    : <div key={id} />
+                )
+            })} 
         </Wrapper>
     )
 }
