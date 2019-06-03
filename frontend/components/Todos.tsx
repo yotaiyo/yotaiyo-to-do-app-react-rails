@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TodoListType } from '../pages/ToDoScreen'
+import { TodoType } from '../pages/ToDoScreen'
 
 interface TodosType {
-    todoList: TodoListType[]
+    todoList: TodoType[]
+    onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean}) => void
 }
 
 const Wrapper = styled.div`
@@ -27,18 +28,38 @@ const TodoBody = styled.div`
     font-size: 20px;
 `
 
-export const Todos = ({ todoList }: TodosType) => {
+const ToggleButton = styled.img`
+    margin: 0 0 0 auto;
+    width: 15px;
+    height: 15px;
+    margin-top: 8px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-left: solid 1px #EEEEEE;
+    @media (max-width: 768px) {  
+        width: 10px;
+        height: 10px;
+        margin-top: 4px;
+    }
+`
+
+export const Todos = ({ todoList, onClickCheckButton }: TodosType) => {
     console.log(todoList)
     let listNum = 0
     return(
         <Wrapper>
             {todoList.map((todo) => {
-                const { title } = todo
+                const { id, title, completed } = todo
                 listNum += 1 
 
                 return (
                     <TodoCard key={listNum} style={{ borderTop: listNum === 1 ? 'solid 1px' : undefined }}>
-                        <TodoBody>{title}</TodoBody>
+                        <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{title}</TodoBody>
+                        <ToggleButton 
+                            src={completed ? require('../public/images/check-black.png') : require('../public/images/check-gray.png')} 
+                            alt='check'
+                            onClick={() => onClickCheckButton({ id, completed })}
+                        />
                     </TodoCard>
             )})} 
         </Wrapper>

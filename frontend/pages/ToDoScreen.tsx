@@ -8,13 +8,15 @@ import { Todos } from '../components/Todos'
 
 type ToDoScreenProps = {}
 
-export interface TodoListType {
+export interface TodoType {
+    id?: number
     title: string
+    completed: boolean
 }
 
 type ToDoScreenState = {
     todoInput: string
-    todoList: TodoListType[]
+    todoList: TodoType[]
 }
 
 const Wrapper = styled.div`
@@ -45,13 +47,29 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     componentDidMount() {
+        this.getTodoList()
+    }
+
+    getTodoList() {
         axios.get('http://localhost:3001/todo')
         .then((results) => {
+            console.log('results')
             this.setState({ todoList: results.data})
         })
         .catch((data) =>{
-          console.log(data)
+            console.log(data)
         })
+    }
+
+    postTodo(todo: TodoType) {
+        axios.post('http://localhost:3001/todo', {todo} )
+        .then(() => {
+            this.setState({ todoInput: '' })
+            this.getTodoList()
+        })
+        .catch((data) => {
+            console.log(data)
+        })   
     }
 
     render() {
@@ -63,14 +81,16 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         }
 
         const onClickAddButton = (todoInput: string) => {
-            axios.post('http://localhost:3001/todo', {todo: {title: todoInput}} )
+            const todo = { title: todoInput, completed: false }
+            this.postTodo(todo)
+        }
+
+        const onClickCheckButton = ({ id, completed }: {id?: number, completed: boolean}) => {
+            axios.patch(`http://localhost:3001/todo/${id}`,{completed: !completed})
             .then(() => {
-                const todoList = this.state.todoList
-                todoList.push({ title: todoInput })
-                this.setState({ todoList })
-                this.setState({ todoInput: '' })
+                this.getTodoList()
             })
-            .catch((data) => {
+            .catch((data) =>{
                 console.log(data)
             })
         }
@@ -83,7 +103,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                 <RightWrapper>
                     <Header />
                     <TodoInput todoInput={todoInput} onChangeText={onChangeText} onClickAddButton={onClickAddButton} />
-                    <Todos todoList={todoList} />
+                    <Todos todoList={todoList} onClickCheckButton={onClickCheckButton}/>
                 </RightWrapper>
             </Wrapper>
         )}
