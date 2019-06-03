@@ -5,6 +5,8 @@ interface TodoInputType {
     todoInput: string
     onChangeText: (value: string) => void
     onClickAddButton: (todoInput: string) => void
+    showOnlyCompleted: boolean
+    showOnlyActive: boolean
 }
 
 const TodoInputWrapper = styled.div`
@@ -35,7 +37,6 @@ const AddButton = styled.div`
 ` 
 
 export const TodoInput = ({ todoInput, onChangeText, onClickAddButton }: TodoInputType) => {
-    console.log(todoInput)
     return (
         <TodoInputWrapper>
             <TextInput 
