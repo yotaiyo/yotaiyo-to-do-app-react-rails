@@ -35,7 +35,6 @@ const AddButton = styled.div`
 ` 
 
 export const TodoInput = ({ todoInput, onChangeText, onClickAddButton }: TodoInputType) => {
-    console.log(todoInput)
     return (
         <TodoInputWrapper>
             <TextInput 

@@ -5,6 +5,7 @@ import { Header } from '../components/Header'
 import { Section } from '../components/Section'
 import { TodoInput } from '../components/TodoInput'
 import { Todos } from '../components/Todos'
+import { Footer } from '../components/Footer' 
 
 type ToDoScreenProps = {}
 
@@ -53,7 +54,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     getTodoList() {
         axios.get('http://localhost:3001/todo')
         .then((results) => {
-            console.log('results')
             this.setState({ todoList: results.data})
         })
         .catch((data) =>{
@@ -73,7 +73,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     render() {
-
         const { todoInput, todoList } = this.state 
 
         const onChangeText = (value: string) => {
@@ -104,6 +103,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                     <Header />
                     <TodoInput todoInput={todoInput} onChangeText={onChangeText} onClickAddButton={onClickAddButton} />
                     <Todos todoList={todoList} onClickCheckButton={onClickCheckButton}/>
+                    <Footer />
                 </RightWrapper>
             </Wrapper>
         )}

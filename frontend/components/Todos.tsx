@@ -9,15 +9,15 @@ interface TodosType {
 
 const Wrapper = styled.div`
     margin: 0 auto;
-    margin-top: 10px;
+    margin-top: 20px;
     width: 600px;
     font-size: 20px;
 `
 
 const TodoCard = styled.div`
-    border-left: solid 1px;
-    border-right: solid 1px;
-    border-bottom: solid 1px;
+    border-left: solid 1px #CCCCCC;
+    border-right: solid 1px #CCCCCC;
+    border-bottom: solid 1px #CCCCCC;
     text-align: left;
     padding-left: 10px;
     display: flex;
@@ -35,16 +35,10 @@ const ToggleButton = styled.img`
     margin-top: 8px;
     padding-left: 10px;
     padding-right: 10px;
-    border-left: solid 1px #EEEEEE;
-    @media (max-width: 768px) {  
-        width: 10px;
-        height: 10px;
-        margin-top: 4px;
-    }
+    border-left: solid 1px #CCCCCC;
 `
 
 export const Todos = ({ todoList, onClickCheckButton }: TodosType) => {
-    console.log(todoList)
     let listNum = 0
     return(
         <Wrapper>
@@ -53,7 +47,7 @@ export const Todos = ({ todoList, onClickCheckButton }: TodosType) => {
                 listNum += 1 
 
                 return (
-                    <TodoCard key={listNum} style={{ borderTop: listNum === 1 ? 'solid 1px' : undefined }}>
+                    <TodoCard key={listNum} style={{ borderTop: listNum === 1 ? 'solid 1px #CCCCCC' : undefined }}>
                         <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{title}</TodoBody>
                         <ToggleButton 
                             src={completed ? require('../public/images/check-black.png') : require('../public/images/check-gray.png')} 
