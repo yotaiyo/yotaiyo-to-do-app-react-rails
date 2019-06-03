@@ -1,78 +1,92 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
+import { Header } from '../components/Header'
+import { Section } from '../components/Section'
+import { TodoInput } from '../components/TodoInput'
+import { Todos } from '../components/Todos'
 
 type ToDoScreenProps = {}
 
-interface Todos {
+export interface TodoListType {
     title: string
 }
 
 type ToDoScreenState = {
     todoInput: string
-    todos: Todos[]
+    todoList: TodoListType[]
 }
 
-const Wrapper = styled.div``
+const Wrapper = styled.div`
+    display: flex;
+    flex-direction: row;
+    font-family: 'Vollkorn', serif;
+`
 
-const TextInput = styled.input``
+const LeftWrapper = styled.div`
+    border-right: solid 1px #CCCCCC;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 1500px;
+`
 
-const AddButton = styled.div`` 
+const RightWrapper = styled.div`
+    flex: 1;
+`
 
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     constructor(props: any) {
         super(props)
         this.state = {
           todoInput: '',
-          todos: []
+          todoList: []
         }
     }
-    
+
     componentDidMount() {
         axios.get('http://localhost:3001/todo')
         .then((results) => {
-          console.log(results)
+            this.setState({ todoList: results.data})
         })
         .catch((data) =>{
           console.log(data)
         })
-      }
-
-    onChangeText(value: string) {
-        this.setState({ todoInput: value })
-    }
-
-    onClickAddButton(todoInput: string) {
-        axios.post('http://localhost:3001/todo', {todo: {title: todoInput}} )
-        .then(() => {
-            const todos = this.state.todos
-             todos.push({ title: todoInput })
-            this.setState({ todos })
-            this.setState({ todoInput: '' })
-        })
-        .catch((data) => {
-            console.log(data)
-        })
     }
 
     render() {
-        const { todoInput, todos } = this.state 
 
-    return (
-        <Wrapper>
-            <TextInput 
-                type="text"
-                placeholder='ToDOを入力して下さい'
-                value={this.state.todoInput}
-                onChange={e => this.onChangeText(e.target.value)}
-            />
-            <AddButton 
-                onClick={() => this.onClickAddButton(todoInput)}
-            >
-                Add
-            </AddButton>
-        </Wrapper>
-    )}
+        const { todoInput, todoList } = this.state 
+
+        const onChangeText = (value: string) => {
+            this.setState({ todoInput: value })
+        }
+
+        const onClickAddButton = (todoInput: string) => {
+            axios.post('http://localhost:3001/todo', {todo: {title: todoInput}} )
+            .then(() => {
+                const todoList = this.state.todoList
+                todoList.push({ title: todoInput })
+                this.setState({ todoList })
+                this.setState({ todoInput: '' })
+            })
+            .catch((data) => {
+                console.log(data)
+            })
+        }
+
+        return (
+            <Wrapper>
+                <LeftWrapper>
+                    <Section />
+                </LeftWrapper>
+                <RightWrapper>
+                    <Header />
+                    <TodoInput todoInput={todoInput} onChangeText={onChangeText} onClickAddButton={onClickAddButton} />
+                    <Todos todoList={todoList} />
+                </RightWrapper>
+            </Wrapper>
+        )}
 }
 
 export default ToDoScreen
