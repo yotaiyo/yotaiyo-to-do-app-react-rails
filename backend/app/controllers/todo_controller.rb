@@ -6,7 +6,7 @@ class TodoController < ApplicationController
 
     def create
         logger.debug(params[:todo])
-        todo = params.require(:todo).permit(:title)
+        todo = params.require(:todo).permit(:title, :id)
         @todo = Todo.create(todo)
         render json: @todo
     end
