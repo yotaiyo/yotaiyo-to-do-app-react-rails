@@ -10,4 +10,11 @@ class TodoController < ApplicationController
         @todo = Todo.create(todo)
         render json: @todo
     end
+
+    def update
+        logger.debug(params[:id])
+        @todo = Todo.find(params[:id])
+        @todo.update_attributes(completed: params[:completed])
+        render json: @todo
+    end
 end

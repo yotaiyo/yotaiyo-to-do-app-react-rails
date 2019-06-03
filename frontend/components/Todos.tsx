@@ -1,11 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 import { TodoType } from '../pages/ToDoScreen'
-import checkBlackImage from '../public/images/check-black.png'
-import checkGrayImage from '../public/images/check-gray.png'
 
 interface TodosType {
     todoList: TodoType[]
+    onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean}) => void
 }
 
 const Wrapper = styled.div`
@@ -44,21 +43,22 @@ const ToggleButton = styled.img`
     }
 `
 
-export const Todos = ({ todoList }: TodosType) => {
+export const Todos = ({ todoList, onClickCheckButton }: TodosType) => {
     console.log(todoList)
     let listNum = 0
     return(
         <Wrapper>
             {todoList.map((todo) => {
-                const { title, completed } = todo
+                const { id, title, completed } = todo
                 listNum += 1 
 
                 return (
                     <TodoCard key={listNum} style={{ borderTop: listNum === 1 ? 'solid 1px' : undefined }}>
-                        <TodoBody>{title}</TodoBody>
+                        <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{title}</TodoBody>
                         <ToggleButton 
-                            src={completed ? checkBlackImage : checkGrayImage} 
+                            src={completed ? require('../public/images/check-black.png') : require('../public/images/check-gray.png')} 
                             alt='check'
+                            onClick={() => onClickCheckButton({ id, completed })}
                         />
                     </TodoCard>
             )})} 

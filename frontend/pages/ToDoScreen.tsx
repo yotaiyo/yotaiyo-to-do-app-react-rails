@@ -9,6 +9,7 @@ import { Todos } from '../components/Todos'
 type ToDoScreenProps = {}
 
 export interface TodoType {
+    id?: number
     title: string
     completed: boolean
 }
@@ -84,6 +85,16 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             this.postTodo(todo)
         }
 
+        const onClickCheckButton = ({ id, completed }: {id?: number, completed: boolean}) => {
+            axios.patch(`http://localhost:3001/todo/${id}`,{completed: !completed})
+            .then(() => {
+                this.getTodoList()
+            })
+            .catch((data) =>{
+                console.log(data)
+            })
+        }
+
         return (
             <Wrapper>
                 <LeftWrapper>
@@ -92,7 +103,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                 <RightWrapper>
                     <Header />
                     <TodoInput todoInput={todoInput} onChangeText={onChangeText} onClickAddButton={onClickAddButton} />
-                    <Todos todoList={todoList} />
+                    <Todos todoList={todoList} onClickCheckButton={onClickCheckButton}/>
                 </RightWrapper>
             </Wrapper>
         )}
