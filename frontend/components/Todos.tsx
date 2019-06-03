@@ -1,11 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
-import { TodoListType } from '../pages/ToDoScreen'
+import { TodoType } from '../pages/ToDoScreen'
 import checkBlackImage from '../public/images/check-black.png'
 import checkGrayImage from '../public/images/check-gray.png'
 
 interface TodosType {
-    todoList: TodoListType[]
+    todoList: TodoType[]
 }
 
 const Wrapper = styled.div`
@@ -50,8 +50,7 @@ export const Todos = ({ todoList }: TodosType) => {
     return(
         <Wrapper>
             {todoList.map((todo) => {
-                const { title } = todo
-                const completed = true
+                const { title, completed } = todo
                 listNum += 1 
 
                 return (
