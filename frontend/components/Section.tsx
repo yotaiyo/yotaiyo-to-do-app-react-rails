@@ -6,7 +6,10 @@ const Wrapper = styled.div`
     font-size: 20px;
 `
 
-const SectionWrapper = styled.div``
+const SectionWrapper = styled.div`
+    border-bottom: solid 1px #CCCCCC;
+    padding: 20px;
+`
 
 export const Section = () => (
     <Wrapper>

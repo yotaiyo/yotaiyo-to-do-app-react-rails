@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { Header } from '../components/Header'
 import { Section } from '../components/Section'
+import { TodoInput } from '../components/TodoInput'
 
 type ToDoScreenProps = {}
 
@@ -22,41 +23,16 @@ const Wrapper = styled.div`
 `
 
 const LeftWrapper = styled.div`
-    flex: 0.15;
     border-right: solid 1px #CCCCCC;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
     height: 1500px;
 `
 
 const RightWrapper = styled.div`
-    flex: 0.85;
+    flex: 1;
 `
-
-const TodoInputWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    background-color: #EEEEEE;
-    padding: 5px;
-    width: 300px;
-    margin: auto;
-    margin-top: 30px;
-`
-
-const TextInput = styled.input`
-    width: 200px;
-    font-size: 15px;
-    margin-left: 10px;
-    outline: 0;
-    font-family: 'Vollkorn', serif;
-`
-
-const AddButton = styled.div`
-    margin-left: 10px;
-    margin-right: 7px;
-    background-color: #003399;
-    color: white;
-    padding: 3px;
-` 
 
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     constructor(props: any) {
@@ -96,7 +72,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
 
     render() {
         const { todoInput, todoList } = this.state 
-        console.log(todoList)
 
     return (
         <Wrapper>
@@ -105,19 +80,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             </LeftWrapper>
             <RightWrapper>
                 <Header />
-                <TodoInputWrapper>
-                    <TextInput 
-                        type="text"
-                        placeholder='ToDoを入力して下さい'
-                        value={this.state.todoInput}
-                        onChange={e => this.onChangeText(e.target.value)}
-                    />
-                    <AddButton 
-                        onClick={() => this.onClickAddButton(todoInput)}
-                    >
-                        Add
-                    </AddButton>
-                </TodoInputWrapper>
+                <TodoInput todoInput={todoInput} onChangeText={this.onChangeText} onClickAddButton={this.onClickAddButton} />
             </RightWrapper>
         </Wrapper>
     )}
