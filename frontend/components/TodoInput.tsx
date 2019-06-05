@@ -9,6 +9,8 @@ interface TodoInputType {
     showOnlyActive: boolean
 }
 
+const Wrapper = styled.div``
+
 const TodoInputWrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -18,6 +20,13 @@ const TodoInputWrapper = styled.div`
     width: 300px;
     margin: auto;
     margin-top: 30px;
+`
+
+const TimeIcon = styled.img`
+    width: 25px;
+    height: 25px;
+    margin-top: 2px;
+    margin-left: 10px;
 `
 
 const TextInput = styled.input`
@@ -38,18 +47,24 @@ const AddButton = styled.div`
 
 export const TodoInput = ({ todoInput, onChangeText, onClickAddButton }: TodoInputType) => {
     return (
-        <TodoInputWrapper>
-            <TextInput 
-                type="text"
-                placeholder='ToDoを入力して下さい'
-                value={todoInput}
-                onChange={e => onChangeText(e.target.value)}
-            />
-            <AddButton 
-                onClick={() => onClickAddButton(todoInput)}
-            >
-                Add
-            </AddButton>
-        </TodoInputWrapper>
+        <Wrapper>
+            <TodoInputWrapper>
+                <TimeIcon 
+                    src={require('../public/images/time.png')} 
+                    alt='time'   
+                />
+                <TextInput 
+                    type="text"
+                    placeholder='ToDoを入力して下さい'
+                    value={todoInput}
+                    onChange={e => onChangeText(e.target.value)}
+                />
+                <AddButton 
+                    onClick={() => onClickAddButton(todoInput)}
+                >
+                    Add
+                </AddButton>
+            </TodoInputWrapper>
+        </Wrapper>
     )
 }
