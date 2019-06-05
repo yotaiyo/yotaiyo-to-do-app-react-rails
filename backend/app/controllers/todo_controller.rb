@@ -5,16 +5,15 @@ class TodoController < ApplicationController
     end
 
     def create
-        logger.debug(params[:todo])
-        todo = params.require(:todo).permit(:title, :completed)
+        todo = params.require(:todo).permit(:title, :completed, :deadline)
         @todo = Todo.create(todo)
         render json: @todo
     end
 
     def update
-        logger.debug(params[:id])
+        logger.debug(params[:deadline])
         @todo = Todo.find(params[:id])
-        @todo.update_attributes(completed: params[:completed])
+        @todo.update_attributes(completed: params[:completed], deadline: params[:deadline])
         render json: @todo
     end
 

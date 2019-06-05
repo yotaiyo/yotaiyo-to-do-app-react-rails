@@ -13,6 +13,7 @@ export interface TodoType {
     id?: number
     title: string
     completed: boolean
+    deadline: Date | null
 }
 
 type ToDoScreenState = {
@@ -97,8 +98,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
 
         const postTodo = (todoInput: string, date: Date | null) => {
             const todo = { title: todoInput, completed: false, deadline: isDeadline ? date : null }
-            console.log(todo)
-            // this.postTodo(todo)
+            this.postTodo(todo)
+            this.setState({ isDeadline: false })
         }
 
         const onClickCheckButton = ({ id, completed }: {id?: number, completed: boolean}) => {

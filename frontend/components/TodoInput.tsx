@@ -121,7 +121,11 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
                         onChange={e => onChangeText(e.target.value)}
                     />
                     <AddButton 
-                        onClick={() => postTodo(todoInput, date)}
+                        onClick={() => {
+                            postTodo(todoInput, date)
+                            this.setState({ date: currentTime })
+                            this.setState({ showTimeComponent: false })
+                        }}
                     >
                         Add
                     </AddButton>
