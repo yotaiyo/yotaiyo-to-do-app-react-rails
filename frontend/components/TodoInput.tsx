@@ -3,15 +3,24 @@ import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-interface TodoInputType {
+interface TodoInputProps {
     todoInput: string
     onChangeText: (value: string) => void
     onClickAddButton: (todoInput: string) => void
-    showOnlyCompleted: boolean
-    showOnlyActive: boolean
 }
 
-const Wrapper = styled.div``
+interface TodoInputState {
+    showTimeComponent: boolean
+    date: Date | null
+}
+
+const currentTime = new Date()
+
+const Wrapper = styled.div`
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 20px;
+`
 
 const TodoInputWrapper = styled.div`
     display: flex;
@@ -51,32 +60,60 @@ const DatePickerWrapper = styled.div`
     position: absolute;
 `
 
-export const TodoInput = ({ todoInput, onChangeText, onClickAddButton }: TodoInputType) => {
-    return (
-        <Wrapper>
-            <TodoInputWrapper>
-                <TimeIcon 
-                    src={require('../public/images/time.png')} 
-                    alt='time'   
-                />
-                <TextInput 
-                    type="text"
-                    placeholder='ToDoを入力して下さい'
-                    value={todoInput}
-                    onChange={e => onChangeText(e.target.value)}
-                />
-                <AddButton 
-                    onClick={() => onClickAddButton(todoInput)}
-                >
-                    Add
-                </AddButton>
-            </TodoInputWrapper>
-            <DatePickerWrapper>
-                <DatePicker
-                    onChange={(date) => {}}
-                    inline
-                />
+export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
+    constructor(props: TodoInputProps) {
+        super(props)
+        this.state = {
+            showTimeComponent: false,
+            date: currentTime
+        }
+    }
+    
+    render(){
+        const { todoInput, onChangeText, onClickAddButton } = this.props
+        const { showTimeComponent, date } = this.state
+
+        const onClickTimeIcon = (showTimeComponent: boolean) => {
+            this.setState({ showTimeComponent: !showTimeComponent })
+        }
+    
+        const handleChange = (date: Date | null) => {
+            this.setState({ date })
+            this.setState({ showTimeComponent: false })        
+        }
+        return (
+            <Wrapper>
+                <TodoInputWrapper>
+                    <TimeIcon 
+                        src={require('../public/images/time.png')} 
+                        alt='time'   
+                        onClick={() => onClickTimeIcon(showTimeComponent)}  
+                    />
+                    <TextInput 
+                        type="text"
+                        placeholder='ToDoを入力して下さい'
+                        value={todoInput}
+                        onChange={e => onChangeText(e.target.value)}
+                    />
+                    <AddButton 
+                        onClick={() => onClickAddButton(todoInput)}
+                    >
+                        Add
+                    </AddButton>
+                </TodoInputWrapper>
+                { showTimeComponent ?
+                <DatePickerWrapper>
+                    <DatePicker
+                        selected={date}
+                        onChange={(date) => {
+                            handleChange(date)
+                        }}
+                        inline
+                    />
                 </DatePickerWrapper>
-        </Wrapper>
-    )
+                : <div />
+                }
+            </Wrapper>
+        )
+    }
 }

@@ -139,8 +139,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         todoInput={todoInput} 
                         onChangeText={onChangeText} 
                         onClickAddButton={onClickAddButton}
-                        showOnlyCompleted={showOnlyCompleted} 
-                        showOnlyActive={showOnlyActive} 
                     />
                     <Todos 
                         todoList={todoList} 
