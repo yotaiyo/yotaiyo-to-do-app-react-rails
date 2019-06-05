@@ -1,5 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 interface TodoInputType {
     todoInput: string
@@ -44,6 +46,10 @@ const AddButton = styled.div`
     color: white;
     padding: 3px;
 ` 
+const DatePickerWrapper = styled.div`
+    margin-top: 5px;
+    position: absolute;
+`
 
 export const TodoInput = ({ todoInput, onChangeText, onClickAddButton }: TodoInputType) => {
     return (
@@ -65,6 +71,12 @@ export const TodoInput = ({ todoInput, onChangeText, onClickAddButton }: TodoInp
                     Add
                 </AddButton>
             </TodoInputWrapper>
+            <DatePickerWrapper>
+                <DatePicker
+                    onChange={(date) => {}}
+                    inline
+                />
+                </DatePickerWrapper>
         </Wrapper>
     )
 }
