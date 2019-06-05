@@ -76,6 +76,16 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         })   
     }
 
+    deleteTodo(id?: number) {
+        axios.delete(`http://localhost:3001/todo/${id}`)
+        .then(() => {
+            this.getTodoList()
+        })
+        .catch((data) => {
+            console.log(data)
+        })
+    }
+
     render() {
         const { todoInput, todoList, showOnlyActive, showOnlyCompleted } = this.state 
 
@@ -104,12 +114,18 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         
         const onClickCompleted = () => {
             this.setState({ showOnlyActive: false, showOnlyCompleted: true })
-
         }
         
         const onClickActive = () => {
             this.setState({ showOnlyActive: true, showOnlyCompleted: false })
+        }
 
+        const deleteCompletedTodo = () => {
+            todoList.forEach((todo) => {
+                if (todo.completed) {
+                    this.deleteTodo(todo.id)
+                }
+            })
         }
 
         return (
@@ -138,6 +154,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         onClickActive={onClickActive}
                         showOnlyCompleted={showOnlyCompleted} 
                         showOnlyActive={showOnlyActive} 
+                        onClickDeleteButton={deleteCompletedTodo}
                     />
                 </RightWrapper>
             </Wrapper>
