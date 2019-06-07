@@ -13,6 +13,7 @@ export interface TodoType {
     id?: number
     title: string
     completed: boolean
+    deadline: Date | null
 }
 
 type ToDoScreenState = {
@@ -20,6 +21,7 @@ type ToDoScreenState = {
     todoList: TodoType[]
     showOnlyCompleted: boolean
     showOnlyActive: boolean
+    isDeadline: boolean
 }
 
 const Wrapper = styled.div`
@@ -47,7 +49,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
           todoInput: '',
           todoList: [],
           showOnlyCompleted: false,
-          showOnlyActive: false
+          showOnlyActive: false,
+          isDeadline: false
         }
     }
 
@@ -87,15 +90,16 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     render() {
-        const { todoInput, todoList, showOnlyActive, showOnlyCompleted } = this.state 
+        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline } = this.state 
 
         const onChangeText = (value: string) => {
             this.setState({ todoInput: value })
         }
 
-        const onClickAddButton = (todoInput: string) => {
-            const todo = { title: todoInput, completed: false }
+        const postTodo = (todoInput: string, date: Date | null) => {
+            const todo = { title: todoInput, completed: false, deadline: isDeadline ? date : null }
             this.postTodo(todo)
+            this.setState({ isDeadline: false })
         }
 
         const onClickCheckButton = ({ id, completed }: {id?: number, completed: boolean}) => {
@@ -128,6 +132,14 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             })
         }
 
+        const setDeadline = () => {
+            this.setState({ isDeadline: true })
+        }
+
+        const deleteDeadline = () => {
+            this.setState({ isDeadline: false })
+          }
+
         return (
             <Wrapper>
                 <LeftWrapper>
@@ -138,9 +150,10 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                     <TodoInput 
                         todoInput={todoInput} 
                         onChangeText={onChangeText} 
-                        onClickAddButton={onClickAddButton}
-                        showOnlyCompleted={showOnlyCompleted} 
-                        showOnlyActive={showOnlyActive} 
+                        postTodo={postTodo}
+                        isDeadline={isDeadline}
+                        setDeadline={setDeadline}
+                        deleteDeadline={deleteDeadline}
                     />
                     <Todos 
                         todoList={todoList} 
