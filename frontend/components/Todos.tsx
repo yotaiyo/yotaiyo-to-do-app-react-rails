@@ -17,16 +17,26 @@ export const sortTodos = (todoList: TodoType[], currentTime: Date) => {
         if (!deadline && !completed) {
             normalTodos.push(todo)
         } else if (deadline && !completed) {
-            currentTime < deadline ? beforeDeadlineTodos.push(todo) : afterDeadlineTodos.push(todo)
-
+            new Date(currentTime) < new Date(deadline) ? beforeDeadlineTodos.push(todo) : afterDeadlineTodos.push(todo)
         } else {
             completedTodos.push(todo)
         }
     })
   
     beforeDeadlineTodos.sort((a,b) => {
-        return a.deadline && b.deadline ? a.deadline > b.deadline ? 1 : -1 : -1
+        if (a.deadline && b.deadline) {
+            return new Date(a.deadline) > new Date(b.deadline) ? 1 : -1
+        } else {
+            return -1
+        }
     })
+
+
+    console.log('BBBBBBBBBBBBBBBB')
+    console.log(beforeDeadlineTodos)
+    console.log(normalTodos)
+    console.log(afterDeadlineTodos)
+    console.log(completedTodos)
   
     return beforeDeadlineTodos.concat(normalTodos).concat(afterDeadlineTodos).concat(completedTodos)
 }
@@ -101,11 +111,10 @@ export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnl
     }
 
     const sortedTodoList = showSortedTodos ? sortTodos(todoList, currentTime) : null
-    console.log(showSortedTodos)
-    console.log(sortedTodoList)
+    const todos = sortedTodoList || todoList
     return(
         <Wrapper>
-            {sortedTodoList || todoList.map((todo) => {
+            {todos.map((todo) => {
                 const { id, title, completed, deadline } = todo
                 const showCompleted = showOnlyCompleted ? completed : true
                 const showActive = showOnlyActive ? !completed : true 
