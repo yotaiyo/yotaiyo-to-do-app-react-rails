@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "@types/jasmine": "^3.3.13",
     "@types/next": "^8.0.5",
     "@types/react": "^16.8.19",
     "@types/react-datepicker": "^2.3.0",

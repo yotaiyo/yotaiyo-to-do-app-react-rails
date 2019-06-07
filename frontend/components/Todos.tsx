@@ -17,7 +17,7 @@ export const sortTodos = (todoList: TodoType[], currentTime: Date) => {
         if (!deadline && !completed) {
             normalTodos.push(todo)
         } else if (deadline && !completed) {
-            new Date(currentTime) < new Date(deadline) ? beforeDeadlineTodos.push(todo) : afterDeadlineTodos.push(todo)
+            currentTime < new Date(deadline) ? beforeDeadlineTodos.push(todo) : afterDeadlineTodos.push(todo)
         } else {
             completedTodos.push(todo)
         }
@@ -31,13 +31,6 @@ export const sortTodos = (todoList: TodoType[], currentTime: Date) => {
         }
     })
 
-
-    console.log('BBBBBBBBBBBBBBBB')
-    console.log(beforeDeadlineTodos)
-    console.log(normalTodos)
-    console.log(afterDeadlineTodos)
-    console.log(completedTodos)
-  
     return beforeDeadlineTodos.concat(normalTodos).concat(afterDeadlineTodos).concat(completedTodos)
 }
 
