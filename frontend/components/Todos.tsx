@@ -40,6 +40,30 @@ const ToggleButton = styled.img`
     border-left: solid 1px #CCCCCC;
 `
 
+const DeadlineCardWrapper = styled.div`
+    font-size: 12px;
+    margin-top: 7px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+    padding-left: 5px;
+    padding-right: 5px;
+    text-align: left;
+    border-radius: 5px;
+    box-shadow:0px 0px 3px 0.5px #C0C0C0;
+`
+
+interface DeadlineCardType {
+    currentTime: Date
+    deadline: Date
+}
+
+const DeadlineCard = ({ currentTime, deadline } : DeadlineCardType ) => {
+    if (currentTime > new Date(deadline)) {
+        return <DeadlineCardWrapper>締切は終了しました。</DeadlineCardWrapper>
+    } 
+    return <DeadlineCardWrapper>{deadline}まで</DeadlineCardWrapper>
+}
+
 export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnlyActive }: TodosType) => {
     let listNum = 0
     if (todoList.length === 0) {
@@ -48,7 +72,7 @@ export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnl
     return(
         <Wrapper>
             {todoList.map((todo) => {
-                const { id, title, completed } = todo
+                const { id, title, completed, deadline } = todo
                 const showCompleted = showOnlyCompleted ? completed : true
                 const showActive = showOnlyActive ? !completed : true 
                 const show = showCompleted && showActive
@@ -58,6 +82,7 @@ export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnl
                     show ?
                         <TodoCard key={listNum} style={{ borderTop: listNum === 1 ? 'solid 1px #CCCCCC' : undefined }}>
                             <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{title}</TodoBody>
+                            {deadline ? <DeadlineCard currentTime={new Date()} deadline={deadline}/> : <div />}
                             <ToggleButton 
                                 src={completed ? require('../public/images/check-black.png') : require('../public/images/check-gray.png')} 
                                 alt='check'
