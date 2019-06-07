@@ -102,8 +102,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             this.setState({ isDeadline: false })
         }
 
-        const onClickCheckButton = ({ id, completed }: {id?: number, completed: boolean}) => {
-            axios.patch(`http://localhost:3001/todo/${id}`,{completed: !completed})
+        const onClickCheckButton = ({ id, completed, deadline }: { id?: number, completed: boolean, deadline: Date | null; }) => {
+            axios.patch(`http://localhost:3001/todo/${id}`, {completed: !completed, deadline: deadline })
             .then(() => {
                 this.getTodoList()
             })

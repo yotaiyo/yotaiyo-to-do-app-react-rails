@@ -4,7 +4,7 @@ import { TodoType } from '../pages/ToDoScreen'
 
 interface TodosType {
     todoList: TodoType[]
-    onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean}) => void
+    onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean, deadline: Date | null}) => void
     showOnlyCompleted: boolean
     showOnlyActive: boolean
 }
@@ -86,7 +86,7 @@ export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnl
                             <ToggleButton 
                                 src={completed ? require('../public/images/check-black.png') : require('../public/images/check-gray.png')} 
                                 alt='check'
-                                onClick={() => onClickCheckButton({ id, completed })}
+                                onClick={() => onClickCheckButton({ id, completed, deadline })}
                             />
                         </TodoCard>
                     : <div key={id} />
