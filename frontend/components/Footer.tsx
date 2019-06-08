@@ -8,6 +8,8 @@ interface FooterType {
     showOnlyCompleted: boolean
     showOnlyActive: boolean
     onClickDeleteButton: () => void
+    onClickSort: (showSortedTodos: boolean) => void
+    showSortedTodos: boolean
 }
 
 const Wrapper = styled.div`
@@ -36,7 +38,17 @@ const CircleButton = styled.img`
     margin-top: 5px;
 ` 
 
-export const Footer = ({ onClickAll, onClickCompleted, onClickActive, showOnlyCompleted, showOnlyActive, onClickDeleteButton }: FooterType) => {
+export const Footer = ({ 
+    onClickAll, 
+    onClickCompleted, 
+    onClickActive, 
+    showOnlyCompleted, 
+    showOnlyActive, 
+    onClickDeleteButton, 
+    onClickSort, 
+    showSortedTodos 
+    }: FooterType
+    ) => {
     return (
         <Wrapper>
             <SquereButton
@@ -60,6 +72,7 @@ export const Footer = ({ onClickAll, onClickCompleted, onClickActive, showOnlyCo
             <CircleButton
                 src={require('../public/images/sort.png')}
                 alt='sort'
+                onClick={() => onClickSort(showSortedTodos)}
             />
             <CircleButton 
                 src={require('../public/images/delete.png')} 
