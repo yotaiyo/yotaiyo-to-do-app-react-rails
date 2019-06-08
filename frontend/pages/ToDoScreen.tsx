@@ -23,6 +23,8 @@ type ToDoScreenState = {
     showOnlyActive: boolean
     isDeadline: boolean
     showSortedTodos: boolean
+    showPleaseInputTodo: boolean
+    showCharacterLimit: boolean
 }
 
 const Wrapper = styled.div`
@@ -52,7 +54,9 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
           showOnlyCompleted: false,
           showOnlyActive: false,
           isDeadline: false,
-          showSortedTodos: false
+          showSortedTodos: false,
+          showCharacterLimit: false,
+          showPleaseInputTodo: false
         }
     }
 
@@ -92,16 +96,26 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     render() {
-        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos } = this.state 
+        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit } = this.state 
 
         const onChangeText = (value: string) => {
             this.setState({ todoInput: value })
         }
 
         const postTodo = (todoInput: string, date: Date | null) => {
-            const todo = { title: todoInput, completed: false, deadline: isDeadline ? date : null }
-            this.postTodo(todo)
-            this.setState({ isDeadline: false })
+            if (todoInput.length === 0) {
+                this.setState({ showPleaseInputTodo: true })
+                this.setState({ showCharacterLimit: false })        
+            }
+            else if (todoInput.length >= 15) {
+                this.setState({ showPleaseInputTodo: false })
+                this.setState({ showCharacterLimit: true })
+            }
+            else {
+                const todo = { title: todoInput, completed: false, deadline: isDeadline ? date : null }
+                this.postTodo(todo)
+                this.setState({ isDeadline: false })
+            }
         }
 
         const onClickCheckButton = ({ id, completed, deadline }: { id?: number, completed: boolean, deadline: Date | null; }) => {
@@ -160,6 +174,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         isDeadline={isDeadline}
                         setDeadline={setDeadline}
                         deleteDeadline={deleteDeadline}
+                        showPleaseInputTodo={showPleaseInputTodo}
+                        showCharacterLimit={showCharacterLimit}
                     />
                     <Todos 
                         todoList={todoList} 
