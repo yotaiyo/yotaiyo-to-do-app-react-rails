@@ -2,11 +2,44 @@ import React from 'react'
 import styled from 'styled-components'
 import { TodoType } from '../pages/ToDoScreen'
 
+const currentTime = new Date()
+
+// 締切が近いもの=>締切が遅いもの=>締切が設定されていないもの=>締切が終了したもの=>完了したものの順にソートする
+export const sortTodos = (todoList: TodoType[], currentTime: Date) => {
+    const normalTodos: TodoType[] = []
+    const beforeDeadlineTodos: TodoType[] = []
+    const afterDeadlineTodos: TodoType[] = []
+    const completedTodos: TodoType[] = []
+  
+    todoList.forEach(todo => {
+        const { deadline, completed } = todo
+  
+        if (!deadline && !completed) {
+            normalTodos.push(todo)
+        } else if (deadline && !completed) {
+            currentTime < new Date(deadline) ? beforeDeadlineTodos.push(todo) : afterDeadlineTodos.push(todo)
+        } else {
+            completedTodos.push(todo)
+        }
+    })
+  
+    beforeDeadlineTodos.sort((a,b) => {
+        if (a.deadline && b.deadline) {
+            return new Date(a.deadline) > new Date(b.deadline) ? 1 : -1
+        } else {
+            return -1
+        }
+    })
+
+    return beforeDeadlineTodos.concat(normalTodos).concat(afterDeadlineTodos).concat(completedTodos)
+}
+
 interface TodosType {
     todoList: TodoType[]
     onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean, deadline: Date | null}) => void
     showOnlyCompleted: boolean
     showOnlyActive: boolean
+    showSortedTodos: boolean
 }
 
 const Wrapper = styled.div`
@@ -64,14 +97,17 @@ const DeadlineCard = ({ currentTime, deadline } : DeadlineCardType ) => {
     return <DeadlineCardWrapper>{deadline}まで</DeadlineCardWrapper>
 }
 
-export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnlyActive }: TodosType) => {
+export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnlyActive, showSortedTodos }: TodosType) => {
     let listNum = 0
     if (todoList.length === 0) {
         return <Wrapper>Todoはありません。</Wrapper>
     }
+
+    const sortedTodoList = showSortedTodos ? sortTodos(todoList, currentTime) : null
+    const todos = sortedTodoList || todoList
     return(
         <Wrapper>
-            {todoList.map((todo) => {
+            {todos.map((todo) => {
                 const { id, title, completed, deadline } = todo
                 const showCompleted = showOnlyCompleted ? completed : true
                 const showActive = showOnlyActive ? !completed : true 
@@ -82,7 +118,7 @@ export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnl
                     show ?
                         <TodoCard key={listNum} style={{ borderTop: listNum === 1 ? 'solid 1px #CCCCCC' : undefined }}>
                             <TodoBody style={{ textDecoration: completed ? 'line-through' : undefined }}>{title}</TodoBody>
-                            {deadline ? <DeadlineCard currentTime={new Date()} deadline={deadline}/> : <div />}
+                            {deadline ? <DeadlineCard currentTime={currentTime} deadline={deadline}/> : <div />}
                             <ToggleButton 
                                 src={completed ? require('../public/images/check-black.png') : require('../public/images/check-gray.png')} 
                                 alt='check'

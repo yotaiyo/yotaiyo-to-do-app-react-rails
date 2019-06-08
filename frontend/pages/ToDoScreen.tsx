@@ -22,6 +22,7 @@ type ToDoScreenState = {
     showOnlyCompleted: boolean
     showOnlyActive: boolean
     isDeadline: boolean
+    showSortedTodos: boolean
 }
 
 const Wrapper = styled.div`
@@ -50,7 +51,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
           todoList: [],
           showOnlyCompleted: false,
           showOnlyActive: false,
-          isDeadline: false
+          isDeadline: false,
+          showSortedTodos: false
         }
     }
 
@@ -90,7 +92,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     render() {
-        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline } = this.state 
+        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos } = this.state 
 
         const onChangeText = (value: string) => {
             this.setState({ todoInput: value })
@@ -122,6 +124,10 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         
         const onClickActive = () => {
             this.setState({ showOnlyActive: true, showOnlyCompleted: false })
+        }
+
+        const onClickSort = (showSortedTodos: boolean) => {
+            this.setState({ showSortedTodos: !showSortedTodos })
         }
 
         const deleteCompletedTodo = () => {
@@ -160,6 +166,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         onClickCheckButton={onClickCheckButton}
                         showOnlyCompleted={showOnlyCompleted} 
                         showOnlyActive={showOnlyActive}
+                        showSortedTodos={showSortedTodos}
                     />
                     <Footer 
                         onClickAll={onClickAll} 
@@ -168,6 +175,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         showOnlyCompleted={showOnlyCompleted} 
                         showOnlyActive={showOnlyActive} 
                         onClickDeleteButton={deleteCompletedTodo}
+                        onClickSort={onClickSort}
+                        showSortedTodos={showSortedTodos}
                     />
                 </RightWrapper>
             </Wrapper>
