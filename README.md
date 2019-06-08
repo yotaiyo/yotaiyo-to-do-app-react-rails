@@ -7,7 +7,8 @@ cd yotaiyo-to-do-app-react-rails
 
 - frontend
 cd frontend
-yarn 
+yarn
+yarn test
 yarn run dev
 http://localhost:3000/ToDoScreen
 
