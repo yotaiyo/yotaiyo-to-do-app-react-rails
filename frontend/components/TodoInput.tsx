@@ -10,6 +10,8 @@ interface TodoInputProps {
     isDeadline: boolean
     setDeadline: () => void
     deleteDeadline: () => void
+    showPleaseInputTodo: boolean
+    showCharacterLimit: boolean
 }
 
 interface TodoInputState {
@@ -25,6 +27,8 @@ const Wrapper = styled.div`
     margin-top: 20px;
 `
 
+const Warning = styled.div``
+
 const TodoInputWrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -33,7 +37,6 @@ const TodoInputWrapper = styled.div`
     padding: 5px;
     width: 300px;
     margin: auto;
-    margin-top: 30px;
 `
 
 const TimeIcon = styled.img`
@@ -94,7 +97,7 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
     }
     
     render(){
-        const { todoInput, onChangeText, postTodo, isDeadline, setDeadline, deleteDeadline } = this.props
+        const { todoInput, onChangeText, postTodo, isDeadline, setDeadline, deleteDeadline, showPleaseInputTodo, showCharacterLimit } = this.props
         const { showTimeComponent, date } = this.state
 
         const onClickTimeIcon = (showTimeComponent: boolean) => {
@@ -108,6 +111,14 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
 
         return (
             <Wrapper>
+                { showPleaseInputTodo ? 
+                    <Warning>Todoを入力して下さい</Warning>
+                : <div />
+                }
+                { showCharacterLimit ?
+                    <Warning>15文字以上入力できません</Warning>
+                : <div />
+                }
                 <TodoInputWrapper>
                     <TimeIcon 
                         src={require('../public/images/time.png')} 
