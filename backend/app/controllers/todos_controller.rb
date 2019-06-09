@@ -1,4 +1,4 @@
-class TodoController < ApplicationController
+class TodosController < ApplicationController
     def index
         @todo = Todo.all
         render json: @todo
@@ -11,7 +11,6 @@ class TodoController < ApplicationController
     end
 
     def update
-        logger.debug(params[:deadline])
         @todo = Todo.find(params[:id])
         @todo.update_attributes(completed: params[:completed], deadline: params[:deadline])
         render json: @todo

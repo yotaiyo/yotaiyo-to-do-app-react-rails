@@ -5,7 +5,10 @@ import { Section } from '../components/Section'
 
 interface SignUpProps {}
 
-interface SignUpState {}
+interface SignUpState {
+    userNameInput: string
+    passwordInput: string
+}
 
 const Wrapper = styled.div`
     display: flex;
@@ -76,10 +79,15 @@ const SignUpButton = styled.div`
 class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     constructor(props: any) {
         super(props)
-        this.state = {}
+        this.state = {
+            userNameInput: '',
+            passwordInput: ''
+        }
     }
 
     render() {
+        const { userNameInput, passwordInput } = this.state
+
         return ( 
             <Wrapper>
                 <LeftWrapper>
@@ -92,10 +100,14 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                         <TextInput 
                             type="text"
                             placeholder='Username'
+                            value={userNameInput}
+                            onChange={e => this.onChangeUserNameInput(e.target.value)}
                         />
                         <TextInput 
                             type="text"
                             placeholder='Password'
+                            value={passwordInput}
+                            onChange={e => this.onChangePasswordInput(e.target.value)}
                         />
                         <SignUpButton>
                             sign up
@@ -104,6 +116,15 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                 </RightWrapper >
             </Wrapper>
         )
+        
+    }
+
+    private onChangeUserNameInput = (value: string) => {
+        this.setState({ userNameInput: value})
+    }
+
+    private onChangePasswordInput = (value: string) => {
+        this.setState({ passwordInput: value})
     }
 }
 

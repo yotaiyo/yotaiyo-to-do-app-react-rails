@@ -65,7 +65,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     getTodoList() {
-        axios.get('http://localhost:3001/todo')
+        axios.get('http://localhost:3001/todos')
         .then((results) => {
             this.setState({ todoList: results.data})
         })
@@ -75,7 +75,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     postTodo(todo: TodoType) {
-        axios.post('http://localhost:3001/todo', {todo} )
+        axios.post('http://localhost:3001/todos', {todo} )
         .then(() => {
             this.setState({ todoInput: '' })
             this.getTodoList()
@@ -86,7 +86,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     deleteTodo(id?: number) {
-        axios.delete(`http://localhost:3001/todo/${id}`)
+        axios.delete(`http://localhost:3001/todos/${id}`)
         .then(() => {
             this.getTodoList()
         })
@@ -98,11 +98,50 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     render() {
         const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit } = this.state 
 
-        const onChangeText = (value: string) => {
+        return (
+            <Wrapper>
+                <LeftWrapper>
+                    <Section />
+                </LeftWrapper>
+                <RightWrapper>
+                    <Header />
+                    <TodoInput 
+                        todoInput={todoInput} 
+                        onChangeTodoInput={this.onChangeTodoInput} 
+                        postTodoInput={this.postTodoInput}
+                        isDeadline={isDeadline}
+                        setDeadline={this.setDeadline}
+                        deleteDeadline={this.deleteDeadline}
+                        showPleaseInputTodo={showPleaseInputTodo}
+                        showCharacterLimit={showCharacterLimit}
+                    />
+                    <Todos 
+                        todoList={todoList} 
+                        onClickCheckButton={this.onClickCheckButton}
+                        showOnlyCompleted={showOnlyCompleted} 
+                        showOnlyActive={showOnlyActive}
+                        showSortedTodos={showSortedTodos}
+                    />
+                    <Footer 
+                        onClickAll={this.onClickAll} 
+                        onClickCompleted={this.onClickCompleted} 
+                        onClickActive={this.onClickActive}
+                        showOnlyCompleted={showOnlyCompleted} 
+                        showOnlyActive={showOnlyActive} 
+                        onClickDeleteButton={this.deleteCompletedTodo}
+                        onClickSort={this.onClickSort}
+                        showSortedTodos={showSortedTodos}
+                        todoList={todoList}
+                    />
+                </RightWrapper>
+            </Wrapper>
+        )}
+
+        private onChangeTodoInput = (value: string) => {
             this.setState({ todoInput: value })
         }
 
-        const postTodo = (todoInput: string, date: Date | null) => {
+        private postTodoInput = (todoInput: string, date: Date | null, isDeadline: boolean) => {
             if (todoInput.length === 0) {
                 this.setState({ showPleaseInputTodo: true })
                 this.setState({ showCharacterLimit: false })        
@@ -115,11 +154,13 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                 const todo = { title: todoInput, completed: false, deadline: isDeadline ? date : null }
                 this.postTodo(todo)
                 this.setState({ isDeadline: false })
+                this.setState({ showPleaseInputTodo: false })
+                this.setState({ showCharacterLimit: false })
             }
         }
 
-        const onClickCheckButton = ({ id, completed, deadline }: { id?: number, completed: boolean, deadline: Date | null; }) => {
-            axios.patch(`http://localhost:3001/todo/${id}`, {completed: !completed, deadline: deadline })
+        private onClickCheckButton = ({ id, completed, deadline }: { id?: number, completed: boolean, deadline: Date | null; }) => {
+            axios.patch(`http://localhost:3001/todos/${id}`, {completed: !completed, deadline: deadline })
             .then(() => {
                 this.getTodoList()
             })
@@ -128,23 +169,23 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             })
         }
 
-        const onClickAll = () => {
+        private onClickAll = () => {
             this.setState({ showOnlyActive: false, showOnlyCompleted: false })
         }
         
-        const onClickCompleted = () => {
+        private onClickCompleted = () => {
             this.setState({ showOnlyActive: false, showOnlyCompleted: true })
         }
         
-        const onClickActive = () => {
+        private onClickActive = () => {
             this.setState({ showOnlyActive: true, showOnlyCompleted: false })
         }
 
-        const onClickSort = (showSortedTodos: boolean) => {
+        private onClickSort = (showSortedTodos: boolean) => {
             this.setState({ showSortedTodos: !showSortedTodos })
         }
 
-        const deleteCompletedTodo = () => {
+        private deleteCompletedTodo = (todoList: TodoType[]) => {
             todoList.forEach((todo) => {
                 if (todo.completed) {
                     this.deleteTodo(todo.id)
@@ -152,51 +193,13 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             })
         }
 
-        const setDeadline = () => {
+        private setDeadline = () => {
             this.setState({ isDeadline: true })
         }
 
-        const deleteDeadline = () => {
+        private deleteDeadline = () => {
             this.setState({ isDeadline: false })
-          }
-
-        return (
-            <Wrapper>
-                <LeftWrapper>
-                    <Section />
-                </LeftWrapper>
-                <RightWrapper>
-                    <Header />
-                    <TodoInput 
-                        todoInput={todoInput} 
-                        onChangeText={onChangeText} 
-                        postTodo={postTodo}
-                        isDeadline={isDeadline}
-                        setDeadline={setDeadline}
-                        deleteDeadline={deleteDeadline}
-                        showPleaseInputTodo={showPleaseInputTodo}
-                        showCharacterLimit={showCharacterLimit}
-                    />
-                    <Todos 
-                        todoList={todoList} 
-                        onClickCheckButton={onClickCheckButton}
-                        showOnlyCompleted={showOnlyCompleted} 
-                        showOnlyActive={showOnlyActive}
-                        showSortedTodos={showSortedTodos}
-                    />
-                    <Footer 
-                        onClickAll={onClickAll} 
-                        onClickCompleted={onClickCompleted} 
-                        onClickActive={onClickActive}
-                        showOnlyCompleted={showOnlyCompleted} 
-                        showOnlyActive={showOnlyActive} 
-                        onClickDeleteButton={deleteCompletedTodo}
-                        onClickSort={onClickSort}
-                        showSortedTodos={showSortedTodos}
-                    />
-                </RightWrapper>
-            </Wrapper>
-        )}
+        }
 }
 
 export default ToDoScreen
