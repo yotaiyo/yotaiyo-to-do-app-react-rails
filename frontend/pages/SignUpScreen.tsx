@@ -1,13 +1,16 @@
 import React from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 import { Header } from '../components/Header'
 import { Section } from '../components/Section'
 
 interface SignUpProps {}
 
 interface SignUpState {
+    emailInput: string
     userNameInput: string
     passwordInput: string
+    passwordConfirmationInput: string
 }
 
 const Wrapper = styled.div`
@@ -80,13 +83,25 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     constructor(props: any) {
         super(props)
         this.state = {
+            emailInput: '',
             userNameInput: '',
-            passwordInput: ''
+            passwordInput: '',
+            passwordConfirmationInput: ''
         }
     }
 
+    postSignUpInput(emailInput: string, userNameInput: string, passwordInput: string  ) {
+        axios.post('http://localhost:3001/users', {user: {email: emailInput, name: userNameInput, password: passwordInput, password_confirmation: passwordInput}} 
+        )
+        .then((result) => {
+            if (result.data.errors) {
+                console.log(result.data.errors)
+            }
+        })
+    }
+
     render() {
-        const { userNameInput, passwordInput } = this.state
+        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput } = this.state
 
         return ( 
             <Wrapper>
@@ -99,6 +114,12 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                     <SignUpWrapper>
                         <TextInput 
                             type="text"
+                            placeholder='Email'
+                            value={emailInput}
+                            onChange={e => this.onChangeEmailInput(e.target.value)}
+                        />
+                        <TextInput 
+                            type="text"
                             placeholder='Username'
                             value={userNameInput}
                             onChange={e => this.onChangeUserNameInput(e.target.value)}
@@ -109,14 +130,25 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                             value={passwordInput}
                             onChange={e => this.onChangePasswordInput(e.target.value)}
                         />
-                        <SignUpButton>
+                        <TextInput 
+                            type="text"
+                            placeholder='Confirmation'
+                            value={passwordConfirmationInput}
+                            onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
+                        />
+                        <SignUpButton
+                            onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput)}
+                        >
                             sign up
                         </SignUpButton>
                     </SignUpWrapper>
                 </RightWrapper >
             </Wrapper>
         )
-        
+    }
+
+    private onChangeEmailInput = (value: string) => {
+        this.setState({ emailInput: value})
     }
 
     private onChangeUserNameInput = (value: string) => {
@@ -125,6 +157,10 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
 
     private onChangePasswordInput = (value: string) => {
         this.setState({ passwordInput: value})
+    }
+
+    private onChangePasswordConfirmationInput = (value: string) => {
+        this.setState({ passwordConfirmationInput: value})
     }
 }
 
