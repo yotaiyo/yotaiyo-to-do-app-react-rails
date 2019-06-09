@@ -5,8 +5,8 @@ import 'react-datepicker/dist/react-datepicker.css'
 
 interface TodoInputProps {
     todoInput: string
-    onChangeText: (value: string) => void
-    postTodo: (todoInput: string, date: Date | null) => void
+    onChangeTodoInput: (value: string) => void
+    postTodoInput: (todoInput: string, date: Date | null, isDeadline: boolean) => void
     isDeadline: boolean
     setDeadline: () => void
     deleteDeadline: () => void
@@ -97,17 +97,8 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
     }
     
     render(){
-        const { todoInput, onChangeText, postTodo, isDeadline, setDeadline, deleteDeadline, showPleaseInputTodo, showCharacterLimit } = this.props
+        const { todoInput, onChangeTodoInput, postTodoInput, isDeadline, setDeadline, deleteDeadline, showPleaseInputTodo, showCharacterLimit } = this.props
         const { showTimeComponent, date } = this.state
-
-        const onClickTimeIcon = (showTimeComponent: boolean) => {
-            this.setState({ showTimeComponent: !showTimeComponent })
-        }
-    
-        const handleChangeOfDate = (date: Date | null) => {
-            this.setState({ date })
-            this.setState({ showTimeComponent: false })        
-        }
 
         return (
             <Wrapper>
@@ -123,17 +114,17 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
                     <TimeIcon 
                         src={require('../public/images/time.png')} 
                         alt='time'   
-                        onClick={() => onClickTimeIcon(showTimeComponent)}  
+                        onClick={() => this.onClickTimeIcon(showTimeComponent)} 
                     />
                     <TextInput 
                         type="text"
                         placeholder='ToDoを入力して下さい'
                         value={todoInput}
-                        onChange={e => onChangeText(e.target.value)}
+                        onChange={e => onChangeTodoInput(e.target.value)}
                     />
                     <AddButton 
                         onClick={() => {
-                            postTodo(todoInput, date)
+                            postTodoInput(todoInput, date, isDeadline)
                             this.setState({ date: currentTime })
                             this.setState({ showTimeComponent: false })
                         }}
@@ -147,7 +138,7 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
                     <DatePicker
                         selected={date}
                         onChange={(date) => {
-                            handleChangeOfDate(date)
+                            this.handleChangeOfDate(date)
                             setDeadline()
                         }}
                         inline
@@ -182,5 +173,14 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
             }
             </Wrapper>
         )
+    }
+
+    private onClickTimeIcon = (showTimeComponent: boolean) => {
+        this.setState({ showTimeComponent: !showTimeComponent })
+    }
+
+    private handleChangeOfDate = (date: Date | null) => {
+        this.setState({ date })
+        this.setState({ showTimeComponent: false })        
     }
 }

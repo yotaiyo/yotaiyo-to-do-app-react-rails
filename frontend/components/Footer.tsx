@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { TodoType } from '../pages/ToDoScreen'
 
 interface FooterType {
     onClickAll: () => void
@@ -7,9 +8,10 @@ interface FooterType {
     onClickActive: () => void
     showOnlyCompleted: boolean
     showOnlyActive: boolean
-    onClickDeleteButton: () => void
+    onClickDeleteButton: (todoList: TodoType[]) => void
     onClickSort: (showSortedTodos: boolean) => void
     showSortedTodos: boolean
+    todoList: TodoType[]
 }
 
 const Wrapper = styled.div`
@@ -46,7 +48,8 @@ export const Footer = ({
     showOnlyActive, 
     onClickDeleteButton, 
     onClickSort, 
-    showSortedTodos 
+    showSortedTodos,
+    todoList
     }: FooterType
     ) => {
     return (
@@ -77,7 +80,7 @@ export const Footer = ({
             <CircleButton 
                 src={require('../public/images/delete.png')} 
                 alt='delete' 
-                onClick={onClickDeleteButton}
+                onClick={() => onClickDeleteButton(todoList)}
             />
         </Wrapper>
     )

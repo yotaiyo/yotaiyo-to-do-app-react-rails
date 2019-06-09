@@ -11,7 +11,6 @@ class TodosController < ApplicationController
     end
 
     def update
-        logger.debug(params[:deadline])
         @todo = Todo.find(params[:id])
         @todo.update_attributes(completed: params[:completed], deadline: params[:deadline])
         render json: @todo
