@@ -14,6 +14,7 @@ http://localhost:3000/ToDoScreen
 
 - backend
 cd backend
+bin/rails test
 bin/rails s -p 3001
 http://localhost:3001/todo
 ``` 

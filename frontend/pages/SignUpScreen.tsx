@@ -89,7 +89,8 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     }
 
     postSignUpInput(emailInput: string, userNameInput: string, passwordInput: string  ) {
-        axios.post('http://localhost:3001/users', {email: emailInput, name: userNameInput, password_digest: passwordInput} )
+        axios.post('http://localhost:3001/users', {user: {email: emailInput, name: userNameInput, password: passwordInput, password_confirmation: passwordInput}} 
+        )
         .then((result) => {
             if (result.data.errors) {
                 console.log(result.data.errors)
