@@ -10,6 +10,7 @@ interface SignUpState {
     emailInput: string
     userNameInput: string
     passwordInput: string
+    passwordConfirmationInput: string
 }
 
 const Wrapper = styled.div`
@@ -84,7 +85,8 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         this.state = {
             emailInput: '',
             userNameInput: '',
-            passwordInput: ''
+            passwordInput: '',
+            passwordConfirmationInput: ''
         }
     }
 
@@ -99,7 +101,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     }
 
     render() {
-        const { emailInput, userNameInput, passwordInput } = this.state
+        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput } = this.state
 
         return ( 
             <Wrapper>
@@ -128,6 +130,12 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                             value={passwordInput}
                             onChange={e => this.onChangePasswordInput(e.target.value)}
                         />
+                        <TextInput 
+                            type="text"
+                            placeholder='Confirmation'
+                            value={passwordConfirmationInput}
+                            onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
+                        />
                         <SignUpButton
                             onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput)}
                         >
@@ -149,6 +157,10 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
 
     private onChangePasswordInput = (value: string) => {
         this.setState({ passwordInput: value})
+    }
+
+    private onChangePasswordConfirmationInput = (value: string) => {
+        this.setState({ passwordConfirmationInput: value})
     }
 }
 
