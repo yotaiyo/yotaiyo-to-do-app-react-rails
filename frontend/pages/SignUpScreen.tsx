@@ -90,8 +90,8 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         }
     }
 
-    postSignUpInput(emailInput: string, userNameInput: string, passwordInput: string  ) {
-        axios.post('http://localhost:3001/users', {user: {email: emailInput, name: userNameInput, password: passwordInput, password_confirmation: passwordInput}} 
+    postSignUpInput(emailInput: string, userNameInput: string, passwordInput: string, passwordConfirmationInput: string  ) {
+        axios.post('http://localhost:3001/users', {user: {email: emailInput, name: userNameInput, password: passwordInput, password_confirmation: passwordConfirmationInput}} 
         )
         .then((result) => {
             if (result.data.errors) {
@@ -137,7 +137,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                             onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
                         />
                         <SignUpButton
-                            onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput)}
+                            onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput, passwordConfirmationInput)}
                         >
                             sign up
                         </SignUpButton>

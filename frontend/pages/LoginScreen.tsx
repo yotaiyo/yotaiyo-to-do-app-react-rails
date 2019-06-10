@@ -8,9 +8,7 @@ interface LoginProps {}
 
 interface LoginState {
     emailInput: string
-    userNameInput: string
     passwordInput: string
-    passwordConfirmationInput: string
 }
 
 const Wrapper = styled.div`
@@ -84,14 +82,12 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
         super(props)
         this.state = {
             emailInput: '',
-            userNameInput: '',
-            passwordInput: '',
-            passwordConfirmationInput: ''
+            passwordInput: ''
         }
     }
 
-    postLoginInput(emailInput: string, userNameInput: string, passwordInput: string  ) {
-        axios.post('http://localhost:3001/users', {user: {email: emailInput, name: userNameInput, password: passwordInput, password_confirmation: passwordInput}} 
+    postLoginInput(emailInput: string, passwordInput: string  ) {
+        axios.post('http://localhost:3001/login', {email: emailInput, password: passwordInput} 
         )
         .then((result) => {
             if (result.data.errors) {
@@ -101,7 +97,7 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
     }
 
     render() {
-        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput } = this.state
+        const { emailInput, passwordInput } = this.state
 
         return ( 
             <Wrapper>
@@ -125,7 +121,7 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
                             onChange={e => this.onChangePasswordInput(e.target.value)}
                         />
                         <LoginButton
-                            onClick={() => this.postLoginInput(emailInput, userNameInput, passwordInput)}
+                            onClick={() => this.postLoginInput(emailInput, passwordInput)}
                         >
                             login
                         </LoginButton>
@@ -139,16 +135,8 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
         this.setState({ emailInput: value})
     }
 
-    private onChangeUserNameInput = (value: string) => {
-        this.setState({ userNameInput: value})
-    }
-
     private onChangePasswordInput = (value: string) => {
         this.setState({ passwordInput: value})
-    }
-
-    private onChangePasswordConfirmationInput = (value: string) => {
-        this.setState({ passwordConfirmationInput: value})
     }
 }
 
