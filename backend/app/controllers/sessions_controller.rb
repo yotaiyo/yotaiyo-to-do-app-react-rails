@@ -1,8 +1,8 @@
 class SessionsController < ApplicationController
     def new
-        @user = User.all
-        render json: @user
-    end  
+        @current_user ||= User.find_by(token: params[:token])
+        render json: @current_user
+    end
     
     def create
         @user = User.find_by(email: params[:email].downcase)

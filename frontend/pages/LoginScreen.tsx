@@ -86,11 +86,23 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
         }
     }
 
+    getLogin(token: string){
+        axios.get('http://localhost:3001/login', {params: {token}}
+        )
+        .then((result) => {
+            console.log(result.data)
+        })
+    }
+
     postLoginInput(emailInput: string, passwordInput: string  ) {
         axios.post('http://localhost:3001/login', {email: emailInput, password: passwordInput} 
         )
         .then((result) => {
-            console.log(result.data)
+            if (result.data.token) {
+                    localStorage.setItem('token', result.data.token)
+                    const token = localStorage.getItem('token')
+                    this.getLogin(token)
+            }
             if (result.data.errors) {
                 console.log(result.data.errors)
             }
