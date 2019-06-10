@@ -7,5 +7,7 @@ class User < ApplicationRecord
               uniqueness: { case_sensitive: false }
     validates :name, presence: true, length: { maximum: 50 }
     has_secure_password 
+    has_secure_token 
     validates :password, presence: true, length: { minimum: 6 }
+    validates :token, uniqueness: true
 end

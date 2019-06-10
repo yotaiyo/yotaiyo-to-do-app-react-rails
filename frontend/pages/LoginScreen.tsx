@@ -90,6 +90,7 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
         axios.post('http://localhost:3001/login', {email: emailInput, password: passwordInput} 
         )
         .then((result) => {
+            console.log(result.data)
             if (result.data.errors) {
                 console.log(result.data.errors)
             }
