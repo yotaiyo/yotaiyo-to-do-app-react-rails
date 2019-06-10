@@ -61,4 +61,11 @@ class UserTest < ActiveSupport::TestCase
     @user.password = @user.password_confirmation = "a" * 5
     assert_not @user.valid?
   end
+
+  test "token should be unique" do
+    duplicate_user = @user.dup
+    duplicate_user.token = @user.token
+    @user.save
+    assert_not duplicate_user.valid?
+  end
 end

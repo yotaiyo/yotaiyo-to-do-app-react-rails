@@ -4,13 +4,11 @@ import axios from 'axios'
 import { Header } from '../components/Header'
 import { Section } from '../components/Section'
 
-interface SignUpProps {}
+interface LoginProps {}
 
-interface SignUpState {
+interface LoginState {
     emailInput: string
-    userNameInput: string
     passwordInput: string
-    passwordConfirmationInput: string
 }
 
 const Wrapper = styled.div`
@@ -54,7 +52,7 @@ const Title = styled.div`
     }
 `
 
-const SignUpWrapper = styled.div`
+const LoginWrapper = styled.div`
     display: flex;
     flex-direction: column;
 `
@@ -68,7 +66,7 @@ const TextInput = styled.input`
     font-family: 'Vollkorn', serif;
 `
 
-const SignUpButton = styled.div`
+const LoginButton = styled.div`
     margin-top: 10px;
     background-color: #003399;
     color: white;
@@ -79,21 +77,32 @@ const SignUpButton = styled.div`
     width: 80px;
 ` 
 
-class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
+class LoginScreen extends React.Component<LoginProps, LoginState> {
     constructor(props: any) {
         super(props)
         this.state = {
             emailInput: '',
-            userNameInput: '',
-            passwordInput: '',
-            passwordConfirmationInput: ''
+            passwordInput: ''
         }
     }
 
-    postSignUpInput(emailInput: string, userNameInput: string, passwordInput: string, passwordConfirmationInput: string  ) {
-        axios.post('http://localhost:3001/users', {user: {email: emailInput, name: userNameInput, password: passwordInput, password_confirmation: passwordConfirmationInput}} 
+    getLogin(token: string){
+        axios.get('http://localhost:3001/login', {params: {token}}
         )
         .then((result) => {
+            console.log(result.data)
+        })
+    }
+
+    postLoginInput(emailInput: string, passwordInput: string  ) {
+        axios.post('http://localhost:3001/login', {email: emailInput, password: passwordInput} 
+        )
+        .then((result) => {
+            if (result.data.token) {
+                    localStorage.setItem('token', result.data.token)
+                    const token = localStorage.getItem('token')
+                    this.getLogin(token)
+            }
             if (result.data.errors) {
                 console.log(result.data.errors)
             }
@@ -101,7 +110,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     }
 
     render() {
-        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput } = this.state
+        const { emailInput, passwordInput } = this.state
 
         return ( 
             <Wrapper>
@@ -110,8 +119,8 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                 </LeftWrapper>
                 <RightWrapper>
                     <Header />
-                    <Title>Sign Up</Title>
-                    <SignUpWrapper>
+                    <Title>Log In</Title>
+                    <LoginWrapper>
                         <TextInput 
                             type="text"
                             placeholder='Email'
@@ -120,28 +129,16 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                         />
                         <TextInput 
                             type="text"
-                            placeholder='Username'
-                            value={userNameInput}
-                            onChange={e => this.onChangeUserNameInput(e.target.value)}
-                        />
-                        <TextInput 
-                            type="text"
                             placeholder='Password'
                             value={passwordInput}
                             onChange={e => this.onChangePasswordInput(e.target.value)}
                         />
-                        <TextInput 
-                            type="text"
-                            placeholder='Confirmation'
-                            value={passwordConfirmationInput}
-                            onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
-                        />
-                        <SignUpButton
-                            onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput, passwordConfirmationInput)}
+                        <LoginButton
+                            onClick={() => this.postLoginInput(emailInput, passwordInput)}
                         >
-                            sign up
-                        </SignUpButton>
-                    </SignUpWrapper>
+                            login
+                        </LoginButton>
+                    </LoginWrapper>
                 </RightWrapper >
             </Wrapper>
         )
@@ -151,17 +148,9 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         this.setState({ emailInput: value})
     }
 
-    private onChangeUserNameInput = (value: string) => {
-        this.setState({ userNameInput: value})
-    }
-
     private onChangePasswordInput = (value: string) => {
         this.setState({ passwordInput: value})
     }
-
-    private onChangePasswordConfirmationInput = (value: string) => {
-        this.setState({ passwordConfirmationInput: value})
-    }
 }
 
-export default SignUpScreen
+export default LoginScreen
