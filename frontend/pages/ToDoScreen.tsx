@@ -25,6 +25,8 @@ type ToDoScreenState = {
     showSortedTodos: boolean
     showPleaseInputTodo: boolean
     showCharacterLimit: boolean
+    isLogin: boolean
+    userId: number | null
 }
 
 const Wrapper = styled.div`
@@ -56,12 +58,18 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
           isDeadline: false,
           showSortedTodos: false,
           showCharacterLimit: false,
-          showPleaseInputTodo: false
+          showPleaseInputTodo: false,
+          isLogin: false,
+          userId: null
         }
     }
 
     componentDidMount() {
         this.getTodoList()
+        const token = localStorage.getItem('token')
+        console.log('token', token)
+        this.getLoginUser(token)
+        
     }
 
     getTodoList() {
@@ -95,8 +103,20 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         })
     }
 
+    getLoginUser(token: string | null){
+        axios.get('http://localhost:3001/login', {params: {token}}
+        )
+        .then((result) => {
+            if (result.data.id) {
+                this.setState({ isLogin: true })
+                this.setState({ userId: result.data.id })
+            }
+        })
+    }
+
     render() {
-        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit } = this.state 
+        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit, isLogin, userId } = this.state 
+        console.log(isLogin, userId)
 
         return (
             <Wrapper>
