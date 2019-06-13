@@ -1,11 +1,11 @@
 class TodosController < ApplicationController
     def index
-        @todo = Todo.all
+        @todo = Todo.where(user_id: params[:user_id])
         render json: @todo
     end
 
     def create
-        todo = params.require(:todo).permit(:title, :completed, :deadline)
+        todo = params.require(:todo).permit(:title, :completed, :deadline, :user_id)
         @todo = Todo.create(todo)
         render json: @todo
     end

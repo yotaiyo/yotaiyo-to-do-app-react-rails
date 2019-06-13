@@ -14,6 +14,7 @@ export interface TodoType {
     title: string
     completed: boolean
     deadline: Date | null
+    userId: number | null
 }
 
 type ToDoScreenState = {
@@ -65,25 +66,25 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     componentDidMount() {
-        this.getTodoList()
         const token = localStorage.getItem('token')
-        console.log('token', token)
         this.getLoginUser(token)
-        
     }
 
     getTodoList() {
-        axios.get('http://localhost:3001/todos')
-        .then((results) => {
-            this.setState({ todoList: results.data})
-        })
-        .catch((data) =>{
-            console.log(data)
-        })
+        if (this.state.userId !== null) {
+            axios.get('http://localhost:3001/todos', {params: {user_id: this.state.userId}})
+            .then((results) => {
+                this.setState({ todoList: results.data})
+            })
+            .catch((data) =>{
+                console.log(data)
+            })
+        }
     }
 
     postTodo(todo: TodoType) {
-        axios.post('http://localhost:3001/todos', {todo} )
+        const { title, completed, deadline, userId } = todo
+        axios.post('http://localhost:3001/todos', {title: title, completed: completed, deadline: deadline, user_id: userId} )
         .then(() => {
             this.setState({ todoInput: '' })
             this.getTodoList()
@@ -107,16 +108,16 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         axios.get('http://localhost:3001/login', {params: {token}}
         )
         .then((result) => {
-            if (result.data.id) {
+            if (result.data) {
                 this.setState({ isLogin: true })
                 this.setState({ userId: result.data.id })
+                this.getTodoList()
             }
         })
     }
 
     render() {
-        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit, isLogin, userId } = this.state 
-        console.log(isLogin, userId)
+        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit, isLogin, userId } = this.state
 
         return (
             <Wrapper>
@@ -134,6 +135,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         deleteDeadline={this.deleteDeadline}
                         showPleaseInputTodo={showPleaseInputTodo}
                         showCharacterLimit={showCharacterLimit}
+                        userId={userId}
                     />
                     <Todos 
                         todoList={todoList} 
@@ -161,7 +163,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             this.setState({ todoInput: value })
         }
 
-        private postTodoInput = (todoInput: string, date: Date | null, isDeadline: boolean) => {
+        private postTodoInput = (todoInput: string, date: Date | null, isDeadline: boolean, userId: number | null) => {
             if (todoInput.length === 0) {
                 this.setState({ showPleaseInputTodo: true })
                 this.setState({ showCharacterLimit: false })        
@@ -171,7 +173,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                 this.setState({ showCharacterLimit: true })
             }
             else {
-                const todo = { title: todoInput, completed: false, deadline: isDeadline ? date : null }
+                const todo = { title: todoInput, completed: false, deadline: isDeadline ? date : null, userId: userId }
                 this.postTodo(todo)
                 this.setState({ isDeadline: false })
                 this.setState({ showPleaseInputTodo: false })
@@ -179,7 +181,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             }
         }
 
-        private onClickCheckButton = ({ id, completed, deadline }: { id?: number, completed: boolean, deadline: Date | null; }) => {
+        private onClickCheckButton = ({ id, completed, deadline }: { id?: number, completed: boolean, deadline: Date | null }) => {
             axios.patch(`http://localhost:3001/todos/${id}`, {completed: !completed, deadline: deadline })
             .then(() => {
                 this.getTodoList()
