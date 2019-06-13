@@ -6,12 +6,13 @@ import 'react-datepicker/dist/react-datepicker.css'
 interface TodoInputProps {
     todoInput: string
     onChangeTodoInput: (value: string) => void
-    postTodoInput: (todoInput: string, date: Date | null, isDeadline: boolean) => void
+    postTodoInput: (todoInput: string, date: Date | null, isDeadline: boolean, userId: number | null) => void
     isDeadline: boolean
     setDeadline: () => void
     deleteDeadline: () => void
     showPleaseInputTodo: boolean
     showCharacterLimit: boolean
+    userId: number | null
 }
 
 interface TodoInputState {
@@ -97,7 +98,7 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
     }
     
     render(){
-        const { todoInput, onChangeTodoInput, postTodoInput, isDeadline, setDeadline, deleteDeadline, showPleaseInputTodo, showCharacterLimit } = this.props
+        const { todoInput, onChangeTodoInput, postTodoInput, isDeadline, setDeadline, deleteDeadline, showPleaseInputTodo, showCharacterLimit, userId } = this.props
         const { showTimeComponent, date } = this.state
 
         return (
@@ -124,7 +125,7 @@ export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
                     />
                     <AddButton 
                         onClick={() => {
-                            postTodoInput(todoInput, date, isDeadline)
+                            postTodoInput(todoInput, date, isDeadline, userId)
                             this.setState({ date: currentTime })
                             this.setState({ showTimeComponent: false })
                         }}
