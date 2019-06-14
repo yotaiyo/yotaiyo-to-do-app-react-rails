@@ -41,17 +41,21 @@ const SignUpButton = styled.div`
     width: 150px;
 ` 
 
-export default () => (
-    <Wrapper>
-        <LeftWrapper>
-            <Section />
-        </LeftWrapper>
-        <RightWrapper>
-            <Header />
-            <Title>Welcome to yotaiyo-to-do-app</Title>
-            <Link href='/SignUpScreen'>
-                <SignUpButton>Sign Up!</SignUpButton>
-            </Link>
-        </RightWrapper>
-    </Wrapper>
-)
+const HomeScreen =  () => {
+    return (
+        <Wrapper>
+            <LeftWrapper>
+                <Section />
+            </LeftWrapper>
+            <RightWrapper>
+                <Header />
+                <Title>Welcome to yotaiyo-to-do-app</Title>
+                <Link href='/SignUpScreen'>
+                    <SignUpButton>Sign Up!</SignUpButton>
+                </Link>
+            </RightWrapper>
+        </Wrapper>
+    )
+}
+
+export default HomeScreen
