@@ -26,14 +26,14 @@ const RightWrapper = styled.div`
 
 const Title = styled.div`
     text-align: center;
-    font-size: 70px;
+    font-size: 60px;
     margin-top: 200px;
 `
 
 const SignUpButton = styled.div`
     margin: 0 auto;
     text-align: center;
-    font-size: 30px;
+    font-size: 25px;
     background-color: #003399;
     color: white;
     padding: 3px;
