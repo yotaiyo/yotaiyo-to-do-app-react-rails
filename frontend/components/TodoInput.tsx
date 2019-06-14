@@ -76,10 +76,6 @@ const UpdateOrDeleteDeadlineWrapper = styled.div`
     width: 300px;
     text-align: center;
     box-shadow:0px 0px 3px 0.5px #C0C0C0;
-    @media (max-width: 768px) {
-        width: 200px;
-        margin-right: 50px;
-    }
 `
 
 const UpdateDeadline = styled.div`
