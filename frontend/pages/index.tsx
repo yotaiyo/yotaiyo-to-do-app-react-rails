@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { Header } from '../components/Header'
 import { Section } from '../components/Section'
 import Link from 'next/link'
-import 'react-datepicker/dist/react-datepicker.css'
 
 const Wrapper = styled.div`
     display: flex;
