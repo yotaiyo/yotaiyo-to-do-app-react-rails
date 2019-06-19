@@ -1,21 +1,33 @@
 import React from 'react'
 import styled from 'styled-components'
+import Link from 'next/link'
 
 const Wrapper = styled.div`
-    font-family: 'Vollkorn', serif;
     font-size: 20px;
+    border-right: solid 1px #C0C0C0;
 `
 
 const SectionWrapper = styled.div`
-    border-bottom: solid 1px #CCCCCC;
+    border-bottom: solid 1px #C0C0C0;
     padding: 20px;
+    :hover {
+        background-color: #EEEEEE;
+    }
 `
 
 export const Section = () => (
     <Wrapper>
-        <SectionWrapper>yotaiyo-to-do-appとは</SectionWrapper>
-        <SectionWrapper>ホーム</SectionWrapper>
-        <SectionWrapper>ログイン</SectionWrapper>
-        <SectionWrapper>新規登録</SectionWrapper>
+        <Link href='/AboutScreen'>
+            <SectionWrapper>yotaiyo-to-do-appとは</SectionWrapper>
+        </Link>
+        <Link href='/'>
+            <SectionWrapper>ホーム</SectionWrapper>
+        </Link>
+        <Link href='/ToDoScreen'>
+            <SectionWrapper>ToDo管理</SectionWrapper>
+        </Link>
+        <Link href='/LoginScreen'>
+            <SectionWrapper>ログイン</SectionWrapper>
+        </Link>
     </Wrapper>
 )

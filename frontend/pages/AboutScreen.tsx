@@ -24,8 +24,8 @@ const RightWrapper = styled.div`
 const CardWrapper = styled.div`
     box-shadow: 0px 0px 6px 0.05px rgba(0,0,0,0.5);
     margin-top: 30px;
-    margin-left: 200px;
-    margin-right: 200px;
+    margin-left: 100px;
+    margin-right: 100px;
     border-radius: 10px;
     padding: 20px;
 `

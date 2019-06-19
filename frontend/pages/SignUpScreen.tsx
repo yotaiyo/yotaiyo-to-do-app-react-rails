@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { Header } from '../components/Header'
 import { Section } from '../components/Section'
+import Router from 'next/router'
 
 interface SignUpProps {}
 
@@ -11,6 +12,8 @@ interface SignUpState {
     userNameInput: string
     passwordInput: string
     passwordConfirmationInput: string
+    isLogin: boolean
+    userId: number | null
 }
 
 const Wrapper = styled.div`
@@ -86,8 +89,26 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
             emailInput: '',
             userNameInput: '',
             passwordInput: '',
-            passwordConfirmationInput: ''
+            passwordConfirmationInput: '',
+            isLogin: false,
+            userId: null
         }
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token')
+        this.getLoginUser(token)
+    }
+
+    getLoginUser(token: string | null){
+        axios.get('http://localhost:3001/login', {params: {token}}
+        )
+        .then((result) => {
+            if (result.data) {
+                this.setState({ isLogin: true })
+                this.setState({ userId: result.data.id })
+            }
+        })
     }
 
     postSignUpInput(emailInput: string, userNameInput: string, passwordInput: string, passwordConfirmationInput: string  ) {
@@ -97,53 +118,72 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
             if (result.data.errors) {
                 console.log(result.data.errors)
             }
+            else {
+                this.postLoginInput(emailInput, passwordInput)
+            }
+        })
+    }
+
+    postLoginInput(emailInput: string, passwordInput: string  ) {
+        axios.post('http://localhost:3001/login', {email: emailInput, password: passwordInput} 
+        )
+        .then((result) => {
+            if (result.data.token) {
+                    localStorage.setItem('token', result.data.token)
+                    Router.push('/ToDoScreen')
+            }
+            if (result.data.errors) {
+                console.log(result.data.errors)
+            }
         })
     }
 
     render() {
-        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput } = this.state
+        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput, isLogin } = this.state
 
         return ( 
-            <Wrapper>
-                <LeftWrapper>
-                    <Section />
-                </LeftWrapper>
-                <RightWrapper>
-                    <Header />
-                    <Title>Sign Up</Title>
-                    <SignUpWrapper>
-                        <TextInput 
-                            type="text"
-                            placeholder='Email'
-                            value={emailInput}
-                            onChange={e => this.onChangeEmailInput(e.target.value)}
-                        />
-                        <TextInput 
-                            type="text"
-                            placeholder='Username'
-                            value={userNameInput}
-                            onChange={e => this.onChangeUserNameInput(e.target.value)}
-                        />
-                        <TextInput 
-                            type="text"
-                            placeholder='Password'
-                            value={passwordInput}
-                            onChange={e => this.onChangePasswordInput(e.target.value)}
-                        />
-                        <TextInput 
-                            type="text"
-                            placeholder='Confirmation'
-                            value={passwordConfirmationInput}
-                            onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
-                        />
-                        <SignUpButton
-                            onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput, passwordConfirmationInput)}
-                        >
-                            sign up
-                        </SignUpButton>
-                    </SignUpWrapper>
-                </RightWrapper >
-            </Wrapper>
+            !isLogin ? 
+                <Wrapper>
+                    <LeftWrapper>
+                        <Section />
+                    </LeftWrapper>
+                    <RightWrapper>
+                        <Header />
+                        <Title>Sign Up</Title>
+                        <SignUpWrapper>
+                            <TextInput 
+                                type="text"
+                                placeholder='Email'
+                                value={emailInput}
+                                onChange={e => this.onChangeEmailInput(e.target.value)}
+                            />
+                            <TextInput 
+                                type="text"
+                                placeholder='Username'
+                                value={userNameInput}
+                                onChange={e => this.onChangeUserNameInput(e.target.value)}
+                            />
+                            <TextInput 
+                                type="text"
+                                placeholder='Password'
+                                value={passwordInput}
+                                onChange={e => this.onChangePasswordInput(e.target.value)}
+                            />
+                            <TextInput 
+                                type="text"
+                                placeholder='Confirmation'
+                                value={passwordConfirmationInput}
+                                onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
+                            />
+                            <SignUpButton
+                                onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput, passwordConfirmationInput)}
+                            >
+                                sign up
+                            </SignUpButton>
+                        </SignUpWrapper>
+                    </RightWrapper >
+                </Wrapper>
+            : null
         )
     }
 
