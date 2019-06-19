@@ -120,7 +120,6 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
             }
             else {
                 this.postLoginInput(emailInput, passwordInput)
-                Router.push('/ToDoScreen')
             }
         })
     }
@@ -131,6 +130,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         .then((result) => {
             if (result.data.token) {
                     localStorage.setItem('token', result.data.token)
+                    Router.push('/ToDoScreen')
             }
             if (result.data.errors) {
                 console.log(result.data.errors)
