@@ -48,6 +48,12 @@ const RightWrapper = styled.div`
     flex: 1;
 `
 
+const PleaseLoginText = styled.div`
+    text-align: center;
+    margin-top: 150px;
+    font-size: 30px;
+`
+
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     constructor(props: any) {
         super(props)
@@ -68,6 +74,18 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     componentDidMount() {
         const token = localStorage.getItem('token')
         this.getLoginUser(token)
+    }
+
+    getLoginUser(token: string | null){
+        axios.get('http://localhost:3001/login', {params: {token}}
+        )
+        .then((result) => {
+            if (result.data) {
+                this.setState({ isLogin: true })
+                this.setState({ userId: result.data.id })
+                this.getTodoList()
+            }
+        })
     }
 
     getTodoList() {
@@ -104,57 +122,57 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         })
     }
 
-    getLoginUser(token: string | null){
-        axios.get('http://localhost:3001/login', {params: {token}}
-        )
-        .then((result) => {
-            if (result.data) {
-                this.setState({ isLogin: true })
-                this.setState({ userId: result.data.id })
-                this.getTodoList()
-            }
-        })
-    }
-
     render() {
         const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit, isLogin, userId } = this.state
+        console.log(isLogin, userId)
 
         return (
+            isLogin ?
+                <Wrapper>
+                    <LeftWrapper>
+                        <Section />
+                    </LeftWrapper>
+                    <RightWrapper>
+                        <Header />
+                        <TodoInput 
+                            todoInput={todoInput} 
+                            onChangeTodoInput={this.onChangeTodoInput} 
+                            postTodoInput={this.postTodoInput}
+                            isDeadline={isDeadline}
+                            setDeadline={this.setDeadline}
+                            deleteDeadline={this.deleteDeadline}
+                            showPleaseInputTodo={showPleaseInputTodo}
+                            showCharacterLimit={showCharacterLimit}
+                            userId={userId}
+                        />
+                        <Todos 
+                            todoList={todoList} 
+                            onClickCheckButton={this.onClickCheckButton}
+                            showOnlyCompleted={showOnlyCompleted} 
+                            showOnlyActive={showOnlyActive}
+                            showSortedTodos={showSortedTodos}
+                        />
+                        <Footer 
+                            onClickAll={this.onClickAll} 
+                            onClickCompleted={this.onClickCompleted} 
+                            onClickActive={this.onClickActive}
+                            showOnlyCompleted={showOnlyCompleted} 
+                            showOnlyActive={showOnlyActive} 
+                            onClickDeleteButton={this.deleteCompletedTodo}
+                            onClickSort={this.onClickSort}
+                            showSortedTodos={showSortedTodos}
+                            todoList={todoList}
+                        />
+                    </RightWrapper>
+                </Wrapper>
+            : 
             <Wrapper>
                 <LeftWrapper>
                     <Section />
                 </LeftWrapper>
                 <RightWrapper>
                     <Header />
-                    <TodoInput 
-                        todoInput={todoInput} 
-                        onChangeTodoInput={this.onChangeTodoInput} 
-                        postTodoInput={this.postTodoInput}
-                        isDeadline={isDeadline}
-                        setDeadline={this.setDeadline}
-                        deleteDeadline={this.deleteDeadline}
-                        showPleaseInputTodo={showPleaseInputTodo}
-                        showCharacterLimit={showCharacterLimit}
-                        userId={userId}
-                    />
-                    <Todos 
-                        todoList={todoList} 
-                        onClickCheckButton={this.onClickCheckButton}
-                        showOnlyCompleted={showOnlyCompleted} 
-                        showOnlyActive={showOnlyActive}
-                        showSortedTodos={showSortedTodos}
-                    />
-                    <Footer 
-                        onClickAll={this.onClickAll} 
-                        onClickCompleted={this.onClickCompleted} 
-                        onClickActive={this.onClickActive}
-                        showOnlyCompleted={showOnlyCompleted} 
-                        showOnlyActive={showOnlyActive} 
-                        onClickDeleteButton={this.deleteCompletedTodo}
-                        onClickSort={this.onClickSort}
-                        showSortedTodos={showSortedTodos}
-                        todoList={todoList}
-                    />
+                    <PleaseLoginText>ToDo管理機能を使用するにはログインする必要があります。</PleaseLoginText>
                 </RightWrapper>
             </Wrapper>
         )}

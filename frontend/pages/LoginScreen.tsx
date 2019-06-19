@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { Header } from '../components/Header'
 import { Section } from '../components/Section'
+import Router from 'next/router'
 
 interface LoginProps {}
 
@@ -75,6 +76,15 @@ const LoginButton = styled.div`
     margin-top: 20px;
     text-align: center;
     width: 80px;
+`
+
+const NavigateSignUpText = styled.div`
+    margin: 0px auto;
+    margin-top: 20px;
+`
+
+const Here = styled.a`
+    color: #003399;
 ` 
 
 class LoginScreen extends React.Component<LoginProps, LoginState> {
@@ -128,6 +138,9 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
                         >
                             login
                         </LoginButton>
+                        <NavigateSignUpText>
+                            アカウントをお持ちでない人は<Here onClick={() => Router.push('/SignUpScreen')}>こちら</Here>
+                        </NavigateSignUpText>
                     </LoginWrapper>
                 </RightWrapper >
             </Wrapper>

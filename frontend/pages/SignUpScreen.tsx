@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import { Header } from '../components/Header'
 import { Section } from '../components/Section'
+import Router from 'next/router'
 
 interface SignUpProps {}
 
@@ -94,6 +95,23 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         axios.post('http://localhost:3001/users', {user: {email: emailInput, name: userNameInput, password: passwordInput, password_confirmation: passwordConfirmationInput}} 
         )
         .then((result) => {
+            if (result.data.errors) {
+                console.log(result.data.errors)
+            }
+            else {
+                this.postLoginInput(emailInput, passwordInput)
+                Router.push('/ToDoScreen')
+            }
+        })
+    }
+
+    postLoginInput(emailInput: string, passwordInput: string  ) {
+        axios.post('http://localhost:3001/login', {email: emailInput, password: passwordInput} 
+        )
+        .then((result) => {
+            if (result.data.token) {
+                    localStorage.setItem('token', result.data.token)
+            }
             if (result.data.errors) {
                 console.log(result.data.errors)
             }
