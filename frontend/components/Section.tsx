@@ -4,10 +4,11 @@ import Link from 'next/link'
 
 const Wrapper = styled.div`
     font-size: 20px;
+    border-right: solid 1px #C0C0C0;
 `
 
 const SectionWrapper = styled.div`
-    border-bottom: solid 1px #CCCCCC;
+    border-bottom: solid 1px #C0C0C0;
     padding: 20px;
     :hover {
         background-color: #EEEEEE;
