@@ -10,6 +10,8 @@ interface LoginProps {}
 interface LoginState {
     emailInput: string
     passwordInput: string
+    isLogin: boolean
+    userId: number | null
 }
 
 const Wrapper = styled.div`
@@ -87,13 +89,37 @@ const Here = styled.a`
     color: #003399;
 ` 
 
+const AlreadyLoginText = styled.div`
+    text-align: center;
+    margin-top: 150px;
+    font-size: 30px;
+`
+
 class LoginScreen extends React.Component<LoginProps, LoginState> {
     constructor(props: any) {
         super(props)
         this.state = {
             emailInput: '',
-            passwordInput: ''
+            passwordInput: '',
+            isLogin: false,
+            userId: null
         }
+    }
+
+    componentDidMount() {
+        const token = localStorage.getItem('token')
+        this.getLoginUser(token)
+    }
+
+    getLoginUser(token: string | null){
+        axios.get('http://localhost:3001/login', {params: {token}}
+        )
+        .then((result) => {
+            if (result.data) {
+                this.setState({ isLogin: true })
+                this.setState({ userId: result.data.id })
+            }
+        })
     }
 
     postLoginInput(emailInput: string, passwordInput: string  ) {
@@ -101,7 +127,8 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
         )
         .then((result) => {
             if (result.data.token) {
-                    localStorage.setItem('token', result.data.token)
+                localStorage.setItem('token', result.data.token)
+                Router.push('/ToDoScreen')
             }
             if (result.data.errors) {
                 console.log(result.data.errors)
@@ -110,40 +137,50 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
     }
 
     render() {
-        const { emailInput, passwordInput } = this.state
+        const { emailInput, passwordInput, isLogin } = this.state
 
         return ( 
-            <Wrapper>
-                <LeftWrapper>
-                    <Section />
-                </LeftWrapper>
-                <RightWrapper>
-                    <Header />
-                    <Title>Log In</Title>
-                    <LoginWrapper>
-                        <TextInput 
-                            type="text"
-                            placeholder='Email'
-                            value={emailInput}
-                            onChange={e => this.onChangeEmailInput(e.target.value)}
-                        />
-                        <TextInput 
-                            type="text"
-                            placeholder='Password'
-                            value={passwordInput}
-                            onChange={e => this.onChangePasswordInput(e.target.value)}
-                        />
-                        <LoginButton
-                            onClick={() => this.postLoginInput(emailInput, passwordInput)}
-                        >
-                            login
-                        </LoginButton>
-                        <NavigateSignUpText>
-                            アカウントをお持ちでない人は<Here onClick={() => Router.push('/SignUpScreen')}>こちら</Here>
-                        </NavigateSignUpText>
-                    </LoginWrapper>
-                </RightWrapper >
-            </Wrapper>
+            !isLogin ?
+                <Wrapper>
+                    <LeftWrapper>
+                        <Section />
+                    </LeftWrapper>
+                    <RightWrapper>
+                        <Header />
+                        <Title>Log In</Title>
+                        <LoginWrapper>
+                            <TextInput 
+                                type="text"
+                                placeholder='Email'
+                                value={emailInput}
+                                onChange={e => this.onChangeEmailInput(e.target.value)}
+                            />
+                            <TextInput 
+                                type="text"
+                                placeholder='Password'
+                                value={passwordInput}
+                                onChange={e => this.onChangePasswordInput(e.target.value)}
+                            />
+                            <LoginButton
+                                onClick={() => this.postLoginInput(emailInput, passwordInput)}
+                            >
+                                login
+                            </LoginButton>
+                            <NavigateSignUpText>
+                                アカウントをお持ちでない人は<Here onClick={() => Router.push('/SignUpScreen')}>こちら</Here>
+                            </NavigateSignUpText>
+                        </LoginWrapper>
+                    </RightWrapper >
+                </Wrapper>
+            :   <Wrapper>
+                    <LeftWrapper>
+                        <Section />
+                    </LeftWrapper>
+                    <RightWrapper>
+                        <Header />
+                        <AlreadyLoginText>既にログインしています。</AlreadyLoginText>
+                    </RightWrapper >
+                </Wrapper>
         )
     }
 

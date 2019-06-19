@@ -55,7 +55,7 @@ const PleaseLoginText = styled.div`
 `
 
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
-    constructor(props: any) {
+    constructor(props: ToDoScreenProps) {
         super(props)
         this.state = {
           todoInput: '',
@@ -124,7 +124,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
 
     render() {
         const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit, isLogin, userId } = this.state
-        console.log(isLogin, userId)
 
         return (
             isLogin ?

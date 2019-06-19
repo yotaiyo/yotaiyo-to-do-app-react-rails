@@ -24,7 +24,7 @@ export const Section = () => (
             <SectionWrapper>ホーム</SectionWrapper>
         </Link>
         <Link href='/ToDoScreen'>
-            <SectionWrapper>ToDo</SectionWrapper>
+            <SectionWrapper>ToDo管理</SectionWrapper>
         </Link>
         <Link href='/LoginScreen'>
             <SectionWrapper>ログイン</SectionWrapper>
