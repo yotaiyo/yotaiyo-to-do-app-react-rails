@@ -10,9 +10,9 @@ class SessionsController < ApplicationController
             render json: @user
         else
             if @user
-                render json: { errors: 'パスワードが正しくありません' }
+                render json: { errors: 'Password is Invalid' }
             else
-                render json: { errors: 'メールアドレスが正しくありません' }
+                render json: { errors: 'Email is Invalid' }
             end
 
         end

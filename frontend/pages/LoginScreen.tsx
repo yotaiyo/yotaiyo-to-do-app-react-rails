@@ -12,6 +12,7 @@ interface LoginState {
     passwordInput: string
     isLogin: boolean
     userId: number | null
+    flash: string
 }
 
 const Wrapper = styled.div`
@@ -30,6 +31,12 @@ const LeftWrapper = styled.div`
 
 const RightWrapper = styled.div`
     flex: 1;
+`
+
+const FlashText = styled.div`
+    text-align: center;
+    margin-top: 10px;
+    color: #CC3300;
 `
 
 const Title = styled.div`
@@ -102,7 +109,8 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
             emailInput: '',
             passwordInput: '',
             isLogin: false,
-            userId: null
+            userId: null,
+            flash: ''
         }
     }
 
@@ -131,13 +139,13 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
                 Router.push('/ToDoScreen')
             }
             if (result.data.errors) {
-                console.log(result.data.errors)
+                this.setState({ flash: result.data.errors })
             }
         })
     }
 
     render() {
-        const { emailInput, passwordInput, isLogin } = this.state
+        const { emailInput, passwordInput, isLogin, flash } = this.state
 
         return ( 
             !isLogin ?
@@ -148,6 +156,7 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
                     <RightWrapper>
                         <Header />
                         <Title>Log In</Title>
+                        <FlashText>{flash}</FlashText>
                         <LoginWrapper>
                             <TextInput 
                                 type="text"

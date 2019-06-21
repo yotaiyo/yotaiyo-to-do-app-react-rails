@@ -14,6 +14,7 @@ interface SignUpState {
     passwordConfirmationInput: string
     isLogin: boolean
     userId: number | null
+    flashList: []
 }
 
 const Wrapper = styled.div`
@@ -82,6 +83,25 @@ const SignUpButton = styled.div`
     width: 80px;
 ` 
 
+const FlashText = styled.div`
+    text-align: center;
+    margin-top: 10px;
+    color: #CC3300;
+`
+
+const Flashs: React.FC<{ flashList: [] }> = ({ flashList }) => {
+    return (
+        <>
+            {flashList.map((flash) => {
+                console.log(flash)
+                return (
+                    <FlashText>{flash}</FlashText>
+                )
+            })}
+        </>
+    )
+}
+
 class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     constructor(props: any) {
         super(props)
@@ -91,7 +111,8 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
             passwordInput: '',
             passwordConfirmationInput: '',
             isLogin: false,
-            userId: null
+            userId: null,
+            flashList: []
         }
     }
 
@@ -116,7 +137,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         )
         .then((result) => {
             if (result.data.errors) {
-                console.log(result.data.errors)
+                this.setState({ flashList: result.data.errors})
             }
             else {
                 this.postLoginInput(emailInput, passwordInput)
@@ -139,7 +160,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     }
 
     render() {
-        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput, isLogin } = this.state
+        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput, isLogin, flashList } = this.state
 
         return ( 
             !isLogin ? 
@@ -150,6 +171,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                     <RightWrapper>
                         <Header />
                         <Title>Sign Up</Title>
+                        <Flashs flashList={flashList} />
                         <SignUpWrapper>
                             <TextInput 
                                 type="text"
