@@ -57,7 +57,6 @@ export class Section extends React.Component<SectionProps, SectionState> {
 
     render () {
         const { isLogin } = this.state
-        console.log(isLogin)
         return (
             <Wrapper>
                 <Link href='/AboutScreen'>
