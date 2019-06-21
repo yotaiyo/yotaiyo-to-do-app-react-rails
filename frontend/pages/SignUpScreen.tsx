@@ -93,7 +93,6 @@ const Flashs: React.FC<{ flashList: [] }> = ({ flashList }) => {
     return (
         <>
             {flashList.map((flash) => {
-                console.log(flash)
                 return (
                     <FlashText>{flash}</FlashText>
                 )
