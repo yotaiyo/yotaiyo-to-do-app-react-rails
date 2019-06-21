@@ -7,7 +7,7 @@ import { TodoInput } from '../components/TodoInput'
 import { Todos } from '../components/Todos'
 import { Footer } from '../components/Footer' 
 
-type ToDoScreenProps = {}
+interface ToDoScreenProps {}
 
 export interface TodoType {
     id?: number
@@ -17,7 +17,7 @@ export interface TodoType {
     userId: number | null
 }
 
-type ToDoScreenState = {
+interface ToDoScreenState  {
     todoInput: string
     todoList: TodoType[]
     showOnlyCompleted: boolean
