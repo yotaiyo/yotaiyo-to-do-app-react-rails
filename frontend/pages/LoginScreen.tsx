@@ -4,8 +4,13 @@ import axios from 'axios'
 import { Header } from '../components/Header'
 import { Section } from '../components/Section'
 import Router from 'next/router'
+import { withRouter, SingletonRouter } from 'next/router'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 
-interface LoginProps {}
+interface LoginProps {
+    router: SingletonRouter
+}
 
 interface LoginState {
     emailInput: string
@@ -102,6 +107,11 @@ const AlreadyLoginText = styled.div`
     font-size: 30px;
 `
 
+const ToastText = styled.div`
+    font-family: 'Vollkorn', serif;
+    color: black
+`
+
 class LoginScreen extends React.Component<LoginProps, LoginState> {
     constructor(props: any) {
         super(props)
@@ -126,6 +136,12 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
             if (result.data) {
                 this.setState({ isLogin: true })
                 this.setState({ userId: result.data.id })
+            } else {
+                if (this.props.router.query) {
+                    if (this.props.router.query.from === 'Logout') {
+                        toast(<ToastText>ログアウトしました！</ToastText>)
+                    } 
+                }
             }
         })
     }
@@ -136,7 +152,7 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
         .then((result) => {
             if (result.data.token) {
                 localStorage.setItem('token', result.data.token)
-                Router.push('/ToDoScreen')
+                Router.push({ pathname: '/ToDoScreen', query: { from: 'LoginScreen'} })
             }
             if (result.data.errors) {
                 this.setState({ flash: result.data.errors })
@@ -179,6 +195,7 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
                                 アカウントをお持ちでない人は<Here onClick={() => Router.push('/SignUpScreen')}>こちら</Here>
                             </NavigateSignUpText>
                         </LoginWrapper>
+                        <ToastContainer />
                     </RightWrapper >
                 </Wrapper>
             :   <Wrapper>
@@ -202,4 +219,4 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
     }
 }
 
-export default LoginScreen
+export default withRouter(LoginScreen)

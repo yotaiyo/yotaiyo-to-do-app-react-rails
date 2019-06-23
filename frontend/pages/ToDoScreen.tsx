@@ -5,9 +5,14 @@ import { Header } from '../components/Header'
 import { Section } from '../components/Section'
 import { TodoInput } from '../components/TodoInput'
 import { Todos } from '../components/Todos'
-import { Footer } from '../components/Footer' 
+import { Footer } from '../components/Footer'
+import { withRouter, SingletonRouter } from 'next/router'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
 
-interface ToDoScreenProps {}
+interface ToDoScreenProps {
+    router: SingletonRouter
+}
 
 export interface TodoType {
     id?: number
@@ -54,6 +59,11 @@ const PleaseLoginText = styled.div`
     font-size: 30px;
 `
 
+const ToastText = styled.div`
+    font-family: 'Vollkorn', serif;
+    color: black
+`
+
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     constructor(props: ToDoScreenProps) {
         super(props)
@@ -84,6 +94,14 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                 this.setState({ isLogin: true })
                 this.setState({ userId: result.data.id })
                 this.getTodoList()
+                if (this.props.router.query) {
+                    if (this.props.router.query.from === 'LoginScreen') {
+                        toast(<ToastText>ログインしました！</ToastText>)
+                    } 
+                    if (this.props.router.query.from === 'SignUpScreen') {
+                        toast(<ToastText>アカウントを作成しました！</ToastText>)
+                    } 
+                }
             }
         })
     }
@@ -163,6 +181,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                             todoList={todoList}
                         />
                     </RightWrapper>
+                    <ToastContainer />
                 </Wrapper>
             : 
             <Wrapper>
@@ -241,4 +260,4 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         }
 }
 
-export default ToDoScreen
+export default withRouter(ToDoScreen)
