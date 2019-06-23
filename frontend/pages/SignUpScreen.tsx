@@ -150,7 +150,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         .then((result) => {
             if (result.data.token) {
                     localStorage.setItem('token', result.data.token)
-                    Router.push('/ToDoScreen')
+                    Router.push({ pathname: '/ToDoScreen', query: { from: 'SignUpScreen' }})
             }
             if (result.data.errors) {
                 console.log(result.data.errors)

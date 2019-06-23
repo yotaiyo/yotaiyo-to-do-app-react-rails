@@ -9,6 +9,7 @@
     "@types/next": "^8.0.5",
     "@types/react": "^16.8.19",
     "@types/react-datepicker": "^2.3.0",
+    "@types/react-toastify": "^4.0.2",
     "@types/styled-components": "^4.1.15",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-typescript": "^1.1.1",
@@ -23,6 +24,7 @@
     "react": "^16.8.6",
     "react-datepicker": "^2.6.0",
     "react-dom": "^16.8.6",
+    "react-toastify": "^5.3.1",
     "styled-components": "^4.2.1",
     "typescript": "^3.5.1"
   },
