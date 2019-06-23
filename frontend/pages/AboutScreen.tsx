@@ -50,7 +50,11 @@ const AboutScreen = () => {
                     <CardTitle>yotaiyo-to-do-appとは</CardTitle>
                     <CardBody>
                         フロントエンドからバックエンドまでを通して、個人で簡単なアプリケーションを作成できるようになることを目的に作成したToDoアプリです。
+                    </CardBody>
+                    <CardBody>
                         ToDoの追加、完了、削除、フィルタリング、募集期限の設定、ソートといった機能が使用できます。
+                    </CardBody>
+                    <CardBody>
                         また、認証周りの勉強用にログイン機能がついています。
                     </CardBody>
                 </CardWrapper>

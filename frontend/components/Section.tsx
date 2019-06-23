@@ -52,7 +52,7 @@ export class Section extends React.Component<SectionProps, SectionState> {
     logout() {
         localStorage.removeItem('token')
         this.setState({ isLogin: false })
-        Router.push('/LoginScreen')
+        Router.push( {pathname: '/LoginScreen', query: { from: 'Logout' } })
     }
 
     render () {
