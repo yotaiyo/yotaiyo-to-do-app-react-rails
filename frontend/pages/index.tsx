@@ -1,16 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Header } from '../components/Header'
-import { Section } from '../components/Section'
+import Section from '../components/Section'
 import Link from 'next/link'
-import axios from 'axios'
+import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
 
-type HomeScreenProps = {}
+interface HomeScreenProps extends withLoginUserState {}
 
-type HomeScreenState = {
-    isLogin: boolean
-    userId: number | null
-}
+interface HomeScreenState {}
 
 const Wrapper = styled.div`
     display: flex;
@@ -52,30 +49,10 @@ const SignUpButton = styled.div`
 class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
     constructor(props: HomeScreenProps) {
         super(props)
-        this.state = {
-          isLogin: false,
-          userId: null
-        }
-    }
-
-    componentDidMount() {
-        const token = localStorage.getItem('token')
-        this.getLoginUser(token)
-    }
-
-    getLoginUser(token: string | null){
-        axios.get('http://localhost:3001/login', {params: {token}}
-        )
-        .then((result) => {
-            if (result.data) {
-                this.setState({ isLogin: true })
-                this.setState({ userId: result.data.id })
-            }
-        })
     }
 
     render() {
-        const { isLogin } = this.state
+        const { isLogin } = this.props
         return (
             <Wrapper>
                 <LeftWrapper>
@@ -96,4 +73,4 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
     }
 }
 
-export default HomeScreen
+export default withLoginUser(HomeScreen)

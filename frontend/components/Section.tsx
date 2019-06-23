@@ -1,15 +1,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
-import axios from 'axios'
 import Router from 'next/router'
+import { withLoginUser, withLoginUserState } from './withLoginUser'
 
-interface SectionProps {}
+interface SectionProps extends withLoginUserState {}
 
-interface SectionState  {
-    isLogin: boolean
-    userId: number | null
-}
+interface SectionState  {}
 
 const Wrapper = styled.div`
     font-size: 20px;
@@ -24,39 +21,18 @@ const SectionWrapper = styled.div`
     }
 `
 
-export class Section extends React.Component<SectionProps, SectionState> {
+class Section extends React.Component<SectionProps, SectionState> {
     constructor(props: SectionProps) {
         super(props)
-        this.state = {
-          isLogin: false,
-          userId: null
-        }
-    }
-
-    componentDidMount() {
-        const token = localStorage.getItem('token')
-        this.getLoginUser(token)
-    }
-
-    getLoginUser(token: string | null){
-        axios.get('http://localhost:3001/login', {params: {token}}
-        )
-        .then((result) => {
-            if (result.data) {
-                this.setState({ isLogin: true })
-                this.setState({ userId: result.data.id })
-            }
-        })
     }
 
     logout() {
         localStorage.removeItem('token')
-        this.setState({ isLogin: false })
         Router.push( {pathname: '/LoginScreen', query: { from: 'Logout' } })
     }
 
     render () {
-        const { isLogin } = this.state
+        const { isLogin } = this.props
         return (
             <Wrapper>
                 <Link href='/AboutScreen'>
@@ -79,3 +55,5 @@ export class Section extends React.Component<SectionProps, SectionState> {
         )
     }
 }
+
+export default withLoginUser(Section)

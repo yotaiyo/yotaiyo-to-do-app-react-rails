@@ -2,13 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { Header } from '../components/Header'
-import { Section } from '../components/Section'
+import Section from '../components/Section'
 import { TodoInput } from '../components/TodoInput'
 import { Todos } from '../components/Todos'
 import { Footer } from '../components/Footer'
 import { withRouter, SingletonRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.min.css'
 
 interface ToDoScreenProps {
     router: SingletonRouter

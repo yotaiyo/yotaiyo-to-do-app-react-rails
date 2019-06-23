@@ -1,6 +1,7 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import 'react-datepicker/dist/react-datepicker.css'
+import 'react-toastify/dist/ReactToastify.min.css'
 
 export default class MyApp extends App {
   static async getInitialProps({ Component, router, ctx }) {
