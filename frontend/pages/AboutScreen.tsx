@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Header } from '../components/Header'
-import { Section } from '../components/Section'
+import Section from '../components/Section'
 
 const Wrapper = styled.div`
     display: flex;

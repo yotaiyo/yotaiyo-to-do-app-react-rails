@@ -2,21 +2,19 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { Header } from '../components/Header'
-import { Section } from '../components/Section'
+import Section from '../components/Section'
 import Router from 'next/router'
 import { withRouter, SingletonRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.min.css'
+import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
 
-interface LoginProps {
+interface LoginProps extends withLoginUserState {
     router: SingletonRouter
 }
 
 interface LoginState {
     emailInput: string
     passwordInput: string
-    isLogin: boolean
-    userId: number | null
     flash: string
 }
 
@@ -118,32 +116,16 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
         this.state = {
             emailInput: '',
             passwordInput: '',
-            isLogin: false,
-            userId: null,
             flash: ''
         }
     }
 
     componentDidMount() {
-        const token = localStorage.getItem('token')
-        this.getLoginUser(token)
-    }
-
-    getLoginUser(token: string | null){
-        axios.get('http://localhost:3001/login', {params: {token}}
-        )
-        .then((result) => {
-            if (result.data) {
-                this.setState({ isLogin: true })
-                this.setState({ userId: result.data.id })
-            } else {
-                if (this.props.router.query) {
-                    if (this.props.router.query.from === 'Logout') {
-                        toast(<ToastText>ログアウトしました！</ToastText>)
-                    } 
-                }
-            }
-        })
+        if (this.props.router.query) {
+            if (this.props.router.query.from === 'Logout') {
+                toast(<ToastText>ログアウトしました！</ToastText>)
+            } 
+        }
     }
 
     postLoginInput(emailInput: string, passwordInput: string  ) {
@@ -161,7 +143,8 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
     }
 
     render() {
-        const { emailInput, passwordInput, isLogin, flash } = this.state
+        const { emailInput, passwordInput, flash } = this.state
+        const { isLogin } = this.props
 
         return ( 
             !isLogin ?
@@ -219,4 +202,4 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
     }
 }
 
-export default withRouter(LoginScreen)
+export default withLoginUser(withRouter(LoginScreen))

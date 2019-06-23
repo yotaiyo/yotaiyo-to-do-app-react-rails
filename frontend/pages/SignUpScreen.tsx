@@ -2,18 +2,17 @@ import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { Header } from '../components/Header'
-import { Section } from '../components/Section'
+import Section from '../components/Section'
 import Router from 'next/router'
+import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
 
-interface SignUpProps {}
+interface SignUpProps extends withLoginUserState {}
 
 interface SignUpState {
     emailInput: string
     userNameInput: string
     passwordInput: string
     passwordConfirmationInput: string
-    isLogin: boolean
-    userId: number | null
     flashList: []
 }
 
@@ -109,26 +108,8 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
             userNameInput: '',
             passwordInput: '',
             passwordConfirmationInput: '',
-            isLogin: false,
-            userId: null,
             flashList: []
         }
-    }
-
-    componentDidMount() {
-        const token = localStorage.getItem('token')
-        this.getLoginUser(token)
-    }
-
-    getLoginUser(token: string | null){
-        axios.get('http://localhost:3001/login', {params: {token}}
-        )
-        .then((result) => {
-            if (result.data) {
-                this.setState({ isLogin: true })
-                this.setState({ userId: result.data.id })
-            }
-        })
     }
 
     postSignUpInput(emailInput: string, userNameInput: string, passwordInput: string, passwordConfirmationInput: string  ) {
@@ -159,7 +140,8 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     }
 
     render() {
-        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput, isLogin, flashList } = this.state
+        const { emailInput, userNameInput, passwordInput, passwordConfirmationInput, flashList } = this.state
+        const { isLogin } = this.props
 
         return ( 
             !isLogin ? 
@@ -225,4 +207,4 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     }
 }
 
-export default SignUpScreen
+export default withLoginUser(SignUpScreen)
