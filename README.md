@@ -1,6 +1,16 @@
 # yotaiyo-to-do-app-react-rails
 
-### setup
+## OverView
+フロントエンドからバックエンドまでを通して、個人で簡単なウェブアプリケーションを作成できるようになることを目的に作成しました。  
+フロントエンドはNext.js、バックエンドはRuby on Railsで構成されています。  
+ToDoの追加、完了、フィルタリング、募集期限の設定、ソートといった機能やセキュリティの学習用にトークンベースの認証機能が実装されています。
+
+## 使用した技術
+- TypeScript
+- Next.js
+- Ruby on Rails
+
+## Setup
 ```
 git clone git@github.com:yotaiyo/yotaiyo-to-do-app-react-rails.git
 cd yotaiyo-to-do-app-react-rails
