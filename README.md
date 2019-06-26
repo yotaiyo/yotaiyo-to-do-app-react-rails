@@ -20,11 +20,11 @@ cd frontend
 yarn
 yarn test
 yarn run dev
-http://localhost:3000/ToDoScreen
+http://localhost:3000
 
 - backend
 cd backend
 bin/rails test
 bin/rails s -p 3001
-http://localhost:3001/todo
+http://localhost:3001
 ``` 
