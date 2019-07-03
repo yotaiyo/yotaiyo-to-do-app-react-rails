@@ -28,11 +28,12 @@ class Section extends React.Component<SectionProps, SectionState> {
 
     logout() {
         localStorage.removeItem('token')
-        Router.push( {pathname: '/LoginScreen', query: { from: 'Logout' } })
+        Router.push( { pathname: '/LoginScreen', query: { from: 'Logout' } })
     }
 
     render () {
         const { isLogin } = this.props
+        console.log(isLogin)
         return (
             <Wrapper>
                 <Link href='/AboutScreen'>
