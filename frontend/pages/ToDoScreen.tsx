@@ -79,9 +79,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                     if (this.props.router.query.from === 'LoginScreen') {
                         toast(<ToastText>ログインしました！</ToastText>)
                     } 
-                    if (this.props.router.query.from === 'SignUpScreen') {
-                        toast(<ToastText>アカウントを作成しました！</ToastText>)
-                    } 
                 }
             }
         })

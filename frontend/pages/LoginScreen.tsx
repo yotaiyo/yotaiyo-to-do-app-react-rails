@@ -107,6 +107,9 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
             if (this.props.router.query.from === 'Logout') {
                 toast(<ToastText>ログアウトしました！</ToastText>)
             } 
+            if (this.props.router.query.from === 'SignUpScreen') {
+                toast(<ToastText>アカウントを作成しました！</ToastText>)
+            }
         }
     }
 

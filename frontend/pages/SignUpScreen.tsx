@@ -102,21 +102,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                 this.setState({ flashList: result.data.errors})
             }
             else {
-                this.postLoginInput(emailInput, passwordInput)
-            }
-        })
-    }
-
-    postLoginInput(emailInput: string, passwordInput: string  ) {
-        axios.post('http://localhost:3001/login', {email: emailInput, password: passwordInput} 
-        )
-        .then((result) => {
-            if (result.data.token) {
-                    localStorage.setItem('token', result.data.token)
-                    Router.push({ pathname: '/ToDoScreen', query: { from: 'SignUpScreen' }})
-            }
-            if (result.data.errors) {
-                console.log(result.data.errors)
+                Router.push({ pathname: '/LoginScreen', query: { from: 'SignUpScreen' }})
             }
         })
     }
