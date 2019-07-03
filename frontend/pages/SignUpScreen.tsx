@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { Header } from '../components/Header'
-import Section from '../components/Section'
 import Router from 'next/router'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
 
@@ -16,23 +14,7 @@ interface SignUpState {
     flashList: []
 }
 
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    font-family: 'Vollkorn', serif;
-`
-
-const LeftWrapper = styled.div`
-    border-right: solid 1px #CCCCCC;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 1500px;
-`
-
-const RightWrapper = styled.div`
-    flex: 1;
-`
+const Wrapper = styled.div``
 
 const Title = styled.div`
     margin-top: 20px;
@@ -146,45 +128,39 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         return ( 
             !isLogin ? 
                 <Wrapper>
-                    <LeftWrapper>
-                        <Section />
-                    </LeftWrapper>
-                    <RightWrapper>
-                        <Header />
-                        <Title>Sign Up</Title>
-                        <Flashs flashList={flashList} />
-                        <SignUpWrapper>
-                            <TextInput 
-                                type="text"
-                                placeholder='Email'
-                                value={emailInput}
-                                onChange={e => this.onChangeEmailInput(e.target.value)}
-                            />
-                            <TextInput 
-                                type="text"
-                                placeholder='Username'
-                                value={userNameInput}
-                                onChange={e => this.onChangeUserNameInput(e.target.value)}
-                            />
-                            <TextInput 
-                                type="text"
-                                placeholder='Password'
-                                value={passwordInput}
-                                onChange={e => this.onChangePasswordInput(e.target.value)}
-                            />
-                            <TextInput 
-                                type="text"
-                                placeholder='Confirmation'
-                                value={passwordConfirmationInput}
-                                onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
-                            />
-                            <SignUpButton
-                                onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput, passwordConfirmationInput)}
-                            >
-                                sign up
-                            </SignUpButton>
-                        </SignUpWrapper>
-                    </RightWrapper >
+                    <Title>Sign Up</Title>
+                    <Flashs flashList={flashList} />
+                    <SignUpWrapper>
+                        <TextInput 
+                            type="text"
+                            placeholder='Email'
+                            value={emailInput}
+                            onChange={e => this.onChangeEmailInput(e.target.value)}
+                        />
+                        <TextInput 
+                            type="text"
+                            placeholder='Username'
+                            value={userNameInput}
+                            onChange={e => this.onChangeUserNameInput(e.target.value)}
+                        />
+                        <TextInput 
+                            type="text"
+                            placeholder='Password'
+                            value={passwordInput}
+                            onChange={e => this.onChangePasswordInput(e.target.value)}
+                        />
+                        <TextInput 
+                            type="text"
+                            placeholder='Confirmation'
+                            value={passwordConfirmationInput}
+                            onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
+                        />
+                        <SignUpButton
+                            onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput, passwordConfirmationInput)}
+                        >
+                            sign up
+                        </SignUpButton>
+                    </SignUpWrapper>
                 </Wrapper>
             : null
         )
