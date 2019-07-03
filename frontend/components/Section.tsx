@@ -4,10 +4,6 @@ import Link from 'next/link'
 import Router from 'next/router'
 import { withLoginUser, withLoginUserState } from './withLoginUser'
 
-interface SectionProps extends withLoginUserState {}
-
-interface SectionState  {}
-
 const Wrapper = styled.div`
     font-size: 20px;
     border-right: solid 1px #C0C0C0;
@@ -21,6 +17,10 @@ const SectionWrapper = styled.div`
     }
 `
 
+interface SectionProps extends withLoginUserState {}
+
+interface SectionState  {}
+
 class Section extends React.Component<SectionProps, SectionState> {
     constructor(props: SectionProps) {
         super(props)
@@ -28,7 +28,7 @@ class Section extends React.Component<SectionProps, SectionState> {
 
     logout() {
         localStorage.removeItem('token')
-        Router.push( {pathname: '/LoginScreen', query: { from: 'Logout' } })
+        Router.push( { pathname: '/LoginScreen', query: { from: 'Logout' } })
     }
 
     render () {

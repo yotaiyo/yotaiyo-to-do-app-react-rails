@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import 'react-toastify/dist/ReactToastify.min.css'
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps({ Component, ctx }: { Component: any, ctx: any}) {
     let pageProps = {}
 
     if (Component.getInitialProps) {

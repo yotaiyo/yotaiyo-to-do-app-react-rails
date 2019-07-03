@@ -1,38 +1,11 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { Header } from '../components/Header'
-import Section from '../components/Section'
 import Router from 'next/router'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
+import { withSectionAndHeader } from '../components/withSectionAndHeader'
 
-interface SignUpProps extends withLoginUserState {}
-
-interface SignUpState {
-    emailInput: string
-    userNameInput: string
-    passwordInput: string
-    passwordConfirmationInput: string
-    flashList: []
-}
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    font-family: 'Vollkorn', serif;
-`
-
-const LeftWrapper = styled.div`
-    border-right: solid 1px #CCCCCC;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 1500px;
-`
-
-const RightWrapper = styled.div`
-    flex: 1;
-`
+const Wrapper = styled.div``
 
 const Title = styled.div`
     margin-top: 20px;
@@ -100,6 +73,16 @@ const Flashs: React.FC<{ flashList: [] }> = ({ flashList }) => {
     )
 }
 
+interface SignUpProps extends withLoginUserState {}
+
+interface SignUpState {
+    emailInput: string
+    userNameInput: string
+    passwordInput: string
+    passwordConfirmationInput: string
+    flashList: []
+}
+
 class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     constructor(props: any) {
         super(props)
@@ -120,21 +103,7 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
                 this.setState({ flashList: result.data.errors})
             }
             else {
-                this.postLoginInput(emailInput, passwordInput)
-            }
-        })
-    }
-
-    postLoginInput(emailInput: string, passwordInput: string  ) {
-        axios.post('http://localhost:3001/login', {email: emailInput, password: passwordInput} 
-        )
-        .then((result) => {
-            if (result.data.token) {
-                    localStorage.setItem('token', result.data.token)
-                    Router.push({ pathname: '/ToDoScreen', query: { from: 'SignUpScreen' }})
-            }
-            if (result.data.errors) {
-                console.log(result.data.errors)
+                Router.push({ pathname: '/LoginScreen', query: { from: 'SignUpScreen' }})
             }
         })
     }
@@ -146,45 +115,39 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
         return ( 
             !isLogin ? 
                 <Wrapper>
-                    <LeftWrapper>
-                        <Section />
-                    </LeftWrapper>
-                    <RightWrapper>
-                        <Header />
-                        <Title>Sign Up</Title>
-                        <Flashs flashList={flashList} />
-                        <SignUpWrapper>
-                            <TextInput 
-                                type="text"
-                                placeholder='Email'
-                                value={emailInput}
-                                onChange={e => this.onChangeEmailInput(e.target.value)}
-                            />
-                            <TextInput 
-                                type="text"
-                                placeholder='Username'
-                                value={userNameInput}
-                                onChange={e => this.onChangeUserNameInput(e.target.value)}
-                            />
-                            <TextInput 
-                                type="text"
-                                placeholder='Password'
-                                value={passwordInput}
-                                onChange={e => this.onChangePasswordInput(e.target.value)}
-                            />
-                            <TextInput 
-                                type="text"
-                                placeholder='Confirmation'
-                                value={passwordConfirmationInput}
-                                onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
-                            />
-                            <SignUpButton
-                                onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput, passwordConfirmationInput)}
-                            >
-                                sign up
-                            </SignUpButton>
-                        </SignUpWrapper>
-                    </RightWrapper >
+                    <Title>Sign Up</Title>
+                    <Flashs flashList={flashList} />
+                    <SignUpWrapper>
+                        <TextInput 
+                            type="text"
+                            placeholder='Email'
+                            value={emailInput}
+                            onChange={e => this.onChangeEmailInput(e.target.value)}
+                        />
+                        <TextInput 
+                            type="text"
+                            placeholder='Username'
+                            value={userNameInput}
+                            onChange={e => this.onChangeUserNameInput(e.target.value)}
+                        />
+                        <TextInput 
+                            type="text"
+                            placeholder='Password'
+                            value={passwordInput}
+                            onChange={e => this.onChangePasswordInput(e.target.value)}
+                        />
+                        <TextInput 
+                            type="text"
+                            placeholder='Confirmation'
+                            value={passwordConfirmationInput}
+                            onChange={e => this.onChangePasswordConfirmationInput(e.target.value)}
+                        />
+                        <SignUpButton
+                            onClick={() => this.postSignUpInput(emailInput, userNameInput, passwordInput, passwordConfirmationInput)}
+                        >
+                            sign up
+                        </SignUpButton>
+                    </SignUpWrapper>
                 </Wrapper>
             : null
         )
@@ -207,4 +170,4 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     }
 }
 
-export default withLoginUser(SignUpScreen)
+export default withSectionAndHeader(withLoginUser(SignUpScreen))

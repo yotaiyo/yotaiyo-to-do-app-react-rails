@@ -1,33 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Header } from '../components/Header'
-import Section from '../components/Section'
 import Link from 'next/link'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
+import { withSectionAndHeader } from '../components/withSectionAndHeader'
 
-interface HomeScreenProps extends withLoginUserState {}
-
-interface HomeScreenState {}
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    font-family: 'Vollkorn', serif;
-`
-
-const LeftWrapper = styled.div`
-    border-right: solid 1px #CCCCCC;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 1500px;
-`
-
-const RightWrapper = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-`
+const Wrapper = styled.div``
 
 const Title = styled.div`
     text-align: center;
@@ -46,6 +23,10 @@ const SignUpButton = styled.div`
     width: 150px;
 ` 
 
+interface HomeScreenProps extends withLoginUserState {}
+
+interface HomeScreenState {}
+
 class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
     constructor(props: HomeScreenProps) {
         super(props)
@@ -55,22 +36,16 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
         const { isLogin } = this.props
         return (
             <Wrapper>
-                <LeftWrapper>
-                    <Section />
-                </LeftWrapper>
-                <RightWrapper>
-                    <Header />
-                    <Title>Welcome to yotaiyo-to-do-app</Title>
-                    {!isLogin ? 
-                        <Link href='/SignUpScreen'>
-                            <SignUpButton>Sign Up!</SignUpButton>
-                        </Link>
-                    : null
-                    }
-                </RightWrapper>
+                <Title>Welcome to yotaiyo-to-do-app</Title>
+                {!isLogin ? 
+                    <Link href='/SignUpScreen'>
+                        <SignUpButton>Sign Up!</SignUpButton>
+                    </Link>
+                : null
+                }
             </Wrapper>
         )
     }
 }
 
-export default withLoginUser(HomeScreen)
+export default withSectionAndHeader(withLoginUser(HomeScreen))

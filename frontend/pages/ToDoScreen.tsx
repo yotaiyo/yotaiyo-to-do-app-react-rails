@@ -1,13 +1,25 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { Header } from '../components/Header'
-import Section from '../components/Section'
 import { TodoInput } from '../components/TodoInput'
 import { Todos } from '../components/Todos'
 import { Footer } from '../components/Footer'
 import { withRouter, SingletonRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
+import { withSectionAndHeader } from '../components/withSectionAndHeader'
+
+const Wrapper = styled.div``
+
+const PleaseLoginText = styled.div`
+    text-align: center;
+    margin-top: 150px;
+    font-size: 30px;
+`
+
+const ToastText = styled.div`
+    font-family: 'Vollkorn', serif;
+    color: black
+`
 
 interface ToDoScreenProps {
     router: SingletonRouter
@@ -33,35 +45,6 @@ interface ToDoScreenState  {
     isLogin: boolean
     userId: number | null
 }
-
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    font-family: 'Vollkorn', serif;
-`
-
-const LeftWrapper = styled.div`
-    border-right: solid 1px #CCCCCC;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 1500px;
-`
-
-const RightWrapper = styled.div`
-    flex: 1;
-`
-
-const PleaseLoginText = styled.div`
-    text-align: center;
-    margin-top: 150px;
-    font-size: 30px;
-`
-
-const ToastText = styled.div`
-    font-family: 'Vollkorn', serif;
-    color: black
-`
 
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     constructor(props: ToDoScreenProps) {
@@ -96,9 +79,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                 if (this.props.router.query) {
                     if (this.props.router.query.from === 'LoginScreen') {
                         toast(<ToastText>ログインしました！</ToastText>)
-                    } 
-                    if (this.props.router.query.from === 'SignUpScreen') {
-                        toast(<ToastText>アカウントを作成しました！</ToastText>)
                     } 
                 }
             }
@@ -145,52 +125,40 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         return (
             isLogin ?
                 <Wrapper>
-                    <LeftWrapper>
-                        <Section />
-                    </LeftWrapper>
-                    <RightWrapper>
-                        <Header />
-                        <TodoInput 
-                            todoInput={todoInput} 
-                            onChangeTodoInput={this.onChangeTodoInput} 
-                            postTodoInput={this.postTodoInput}
-                            isDeadline={isDeadline}
-                            setDeadline={this.setDeadline}
-                            deleteDeadline={this.deleteDeadline}
-                            showPleaseInputTodo={showPleaseInputTodo}
-                            showCharacterLimit={showCharacterLimit}
-                            userId={userId}
-                        />
-                        <Todos 
-                            todoList={todoList} 
-                            onClickCheckButton={this.onClickCheckButton}
-                            showOnlyCompleted={showOnlyCompleted} 
-                            showOnlyActive={showOnlyActive}
-                            showSortedTodos={showSortedTodos}
-                        />
-                        <Footer 
-                            onClickAll={this.onClickAll} 
-                            onClickCompleted={this.onClickCompleted} 
-                            onClickActive={this.onClickActive}
-                            showOnlyCompleted={showOnlyCompleted} 
-                            showOnlyActive={showOnlyActive} 
-                            onClickDeleteButton={this.deleteCompletedTodo}
-                            onClickSort={this.onClickSort}
-                            showSortedTodos={showSortedTodos}
-                            todoList={todoList}
-                        />
-                    </RightWrapper>
-                    <ToastContainer />
+                    <TodoInput 
+                        todoInput={todoInput} 
+                        onChangeTodoInput={this.onChangeTodoInput} 
+                        postTodoInput={this.postTodoInput}
+                        isDeadline={isDeadline}
+                        setDeadline={this.setDeadline}
+                        deleteDeadline={this.deleteDeadline}
+                        showPleaseInputTodo={showPleaseInputTodo}
+                        showCharacterLimit={showCharacterLimit}
+                        userId={userId}
+                    />
+                    <Todos 
+                        todoList={todoList} 
+                        onClickCheckButton={this.onClickCheckButton}
+                        showOnlyCompleted={showOnlyCompleted} 
+                        showOnlyActive={showOnlyActive}
+                        showSortedTodos={showSortedTodos}
+                    />
+                    <Footer 
+                        onClickAll={this.onClickAll} 
+                        onClickCompleted={this.onClickCompleted} 
+                        onClickActive={this.onClickActive}
+                        showOnlyCompleted={showOnlyCompleted} 
+                        showOnlyActive={showOnlyActive} 
+                        onClickDeleteButton={this.deleteCompletedTodo}
+                        onClickSort={this.onClickSort}
+                        showSortedTodos={showSortedTodos}
+                        todoList={todoList}
+                    />
+                <ToastContainer />
                 </Wrapper>
             : 
             <Wrapper>
-                <LeftWrapper>
-                    <Section />
-                </LeftWrapper>
-                <RightWrapper>
-                    <Header />
-                    <PleaseLoginText>ToDo管理機能を使用するにはログインする必要があります。</PleaseLoginText>
-                </RightWrapper>
+                <PleaseLoginText>ToDo管理機能を使用するにはログインする必要があります。</PleaseLoginText>
             </Wrapper>
         )}
 
@@ -259,4 +227,4 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         }
 }
 
-export default withRouter(ToDoScreen)
+export default withSectionAndHeader(withRouter(ToDoScreen))
