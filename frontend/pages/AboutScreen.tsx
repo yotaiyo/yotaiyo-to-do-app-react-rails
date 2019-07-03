@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { withSectionAndHeader } from '../components/withSectionAndHeader'
 
 const Wrapper = styled.div``
 
@@ -48,4 +49,4 @@ const AboutScreen = () => {
     )
 }
 
-export default AboutScreen
+export default withSectionAndHeader(AboutScreen)

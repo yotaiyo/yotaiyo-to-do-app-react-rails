@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
+import { withSectionAndHeader } from '../components/withSectionAndHeader'
 
 const Wrapper = styled.div``
 
@@ -47,4 +48,4 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
     }
 }
 
-export default withLoginUser(HomeScreen)
+export default withSectionAndHeader(withLoginUser(HomeScreen))

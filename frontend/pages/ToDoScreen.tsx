@@ -6,6 +6,7 @@ import { Todos } from '../components/Todos'
 import { Footer } from '../components/Footer'
 import { withRouter, SingletonRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
+import { withSectionAndHeader } from '../components/withSectionAndHeader'
 
 const Wrapper = styled.div``
 
@@ -226,4 +227,4 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         }
 }
 
-export default withRouter(ToDoScreen)
+export default withSectionAndHeader(withRouter(ToDoScreen))

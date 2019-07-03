@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import Router from 'next/router'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
+import { withSectionAndHeader } from '../components/withSectionAndHeader'
 
 const Wrapper = styled.div``
 
@@ -169,4 +170,4 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
     }
 }
 
-export default withLoginUser(SignUpScreen)
+export default withSectionAndHeader(withLoginUser(SignUpScreen))

@@ -5,6 +5,7 @@ import Router from 'next/router'
 import { withRouter, SingletonRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
+import { withSectionAndHeader } from '../components/withSectionAndHeader'
 
 const Wrapper = styled.div``
 
@@ -175,4 +176,4 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
     }
 }
 
-export default withLoginUser(withRouter(LoginScreen))
+export default withSectionAndHeader(withLoginUser(withRouter(LoginScreen)))
