@@ -34,14 +34,6 @@ export const sortTodos = (todoList: TodoType[], currentTime: Date) => {
     return beforeDeadlineTodos.concat(normalTodos).concat(afterDeadlineTodos).concat(completedTodos)
 }
 
-interface TodosType {
-    todoList: TodoType[]
-    onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean, deadline: Date | null}) => void
-    showOnlyCompleted: boolean
-    showOnlyActive: boolean
-    showSortedTodos: boolean
-}
-
 const Wrapper = styled.div`
     margin: 0 auto;
     margin-top: 20px;
@@ -95,6 +87,14 @@ const DeadlineCard = ({ currentTime, deadline } : DeadlineCardType ) => {
         return <DeadlineCardWrapper>締切は終了しました。</DeadlineCardWrapper>
     } 
     return <DeadlineCardWrapper>{deadline}まで</DeadlineCardWrapper>
+}
+
+interface TodosType {
+    todoList: TodoType[]
+    onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean, deadline: Date | null}) => void
+    showOnlyCompleted: boolean
+    showOnlyActive: boolean
+    showSortedTodos: boolean
 }
 
 export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnlyActive, showSortedTodos }: TodosType) => {

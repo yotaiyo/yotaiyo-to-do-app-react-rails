@@ -2,18 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { TodoType } from '../pages/ToDoScreen'
 
-interface FooterType {
-    onClickAll: () => void
-    onClickCompleted: () => void
-    onClickActive: () => void
-    showOnlyCompleted: boolean
-    showOnlyActive: boolean
-    onClickDeleteButton: (todoList: TodoType[]) => void
-    onClickSort: (showSortedTodos: boolean) => void
-    showSortedTodos: boolean
-    todoList: TodoType[]
-}
-
 const Wrapper = styled.div`
     display: flex;
     flex-direction: row;
@@ -39,6 +27,18 @@ const CircleButton = styled.img`
     margin-left: 50px;
     margin-top: 5px;
 ` 
+
+interface FooterType {
+    onClickAll: () => void
+    onClickCompleted: () => void
+    onClickActive: () => void
+    showOnlyCompleted: boolean
+    showOnlyActive: boolean
+    onClickDeleteButton: (todoList: TodoType[]) => void
+    onClickSort: (showSortedTodos: boolean) => void
+    showSortedTodos: boolean
+    todoList: TodoType[]
+}
 
 export const Footer = ({ 
     onClickAll, 

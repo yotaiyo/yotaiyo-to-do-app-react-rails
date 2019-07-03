@@ -3,10 +3,6 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
 
-interface HomeScreenProps extends withLoginUserState {}
-
-interface HomeScreenState {}
-
 const Wrapper = styled.div``
 
 const Title = styled.div`
@@ -25,6 +21,10 @@ const SignUpButton = styled.div`
     margin-top: 20px;
     width: 150px;
 ` 
+
+interface HomeScreenProps extends withLoginUserState {}
+
+interface HomeScreenState {}
 
 class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
     constructor(props: HomeScreenProps) {

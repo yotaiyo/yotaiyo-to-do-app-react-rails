@@ -7,6 +7,19 @@ import { Footer } from '../components/Footer'
 import { withRouter, SingletonRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
 
+const Wrapper = styled.div``
+
+const PleaseLoginText = styled.div`
+    text-align: center;
+    margin-top: 150px;
+    font-size: 30px;
+`
+
+const ToastText = styled.div`
+    font-family: 'Vollkorn', serif;
+    color: black
+`
+
 interface ToDoScreenProps {
     router: SingletonRouter
 }
@@ -31,19 +44,6 @@ interface ToDoScreenState  {
     isLogin: boolean
     userId: number | null
 }
-
-const Wrapper = styled.div``
-
-const PleaseLoginText = styled.div`
-    text-align: center;
-    margin-top: 150px;
-    font-size: 30px;
-`
-
-const ToastText = styled.div`
-    font-family: 'Vollkorn', serif;
-    color: black
-`
 
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     constructor(props: ToDoScreenProps) {

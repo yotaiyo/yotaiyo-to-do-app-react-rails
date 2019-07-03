@@ -6,16 +6,6 @@ import { withRouter, SingletonRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
 
-interface LoginProps extends withLoginUserState {
-    router: SingletonRouter
-}
-
-interface LoginState {
-    emailInput: string
-    passwordInput: string
-    flash: string
-}
-
 const Wrapper = styled.div``
 
 const FlashText = styled.div`
@@ -91,6 +81,16 @@ const ToastText = styled.div`
     font-family: 'Vollkorn', serif;
     color: black
 `
+
+interface LoginProps extends withLoginUserState {
+    router: SingletonRouter
+}
+
+interface LoginState {
+    emailInput: string
+    passwordInput: string
+    flash: string
+}
 
 class LoginScreen extends React.Component<LoginProps, LoginState> {
     constructor(props: any) {

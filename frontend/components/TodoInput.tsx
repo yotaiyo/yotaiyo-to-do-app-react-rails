@@ -2,23 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import DatePicker from 'react-datepicker'
 
-interface TodoInputProps {
-    todoInput: string
-    onChangeTodoInput: (value: string) => void
-    postTodoInput: (todoInput: string, date: Date | null, isDeadline: boolean, userId: number | null) => void
-    isDeadline: boolean
-    setDeadline: () => void
-    deleteDeadline: () => void
-    showPleaseInputTodo: boolean
-    showCharacterLimit: boolean
-    userId: number | null
-}
-
-interface TodoInputState {
-    showTimeComponent: boolean
-    date: Date | null
-}
-
 const currentTime = new Date()
 
 const Wrapper = styled.div`
@@ -82,6 +65,23 @@ const UpdateDeadline = styled.div`
 `
 
 const DeleteDeadline = styled.div``
+
+interface TodoInputProps {
+    todoInput: string
+    onChangeTodoInput: (value: string) => void
+    postTodoInput: (todoInput: string, date: Date | null, isDeadline: boolean, userId: number | null) => void
+    isDeadline: boolean
+    setDeadline: () => void
+    deleteDeadline: () => void
+    showPleaseInputTodo: boolean
+    showCharacterLimit: boolean
+    userId: number | null
+}
+
+interface TodoInputState {
+    showTimeComponent: boolean
+    date: Date | null
+}
 
 export class TodoInput extends React.Component<TodoInputProps, TodoInputState> {
     constructor(props: TodoInputProps) {

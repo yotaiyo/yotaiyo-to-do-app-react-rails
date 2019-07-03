@@ -4,16 +4,6 @@ import axios from 'axios'
 import Router from 'next/router'
 import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
 
-interface SignUpProps extends withLoginUserState {}
-
-interface SignUpState {
-    emailInput: string
-    userNameInput: string
-    passwordInput: string
-    passwordConfirmationInput: string
-    flashList: []
-}
-
 const Wrapper = styled.div``
 
 const Title = styled.div`
@@ -80,6 +70,16 @@ const Flashs: React.FC<{ flashList: [] }> = ({ flashList }) => {
             })}
         </>
     )
+}
+
+interface SignUpProps extends withLoginUserState {}
+
+interface SignUpState {
+    emailInput: string
+    userNameInput: string
+    passwordInput: string
+    passwordConfirmationInput: string
+    flashList: []
 }
 
 class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
