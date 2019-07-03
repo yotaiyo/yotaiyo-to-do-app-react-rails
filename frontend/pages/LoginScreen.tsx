@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { Header } from '../components/Header'
-import Section from '../components/Section'
 import Router from 'next/router'
 import { withRouter, SingletonRouter } from 'next/router'
 import { ToastContainer, toast } from 'react-toastify'
@@ -18,23 +16,7 @@ interface LoginState {
     flash: string
 }
 
-const Wrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    font-family: 'Vollkorn', serif;
-`
-
-const LeftWrapper = styled.div`
-    border-right: solid 1px #CCCCCC;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    height: 1500px;
-`
-
-const RightWrapper = styled.div`
-    flex: 1;
-`
+const Wrapper = styled.div``
 
 const FlashText = styled.div`
     text-align: center;
@@ -149,46 +131,34 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
         return ( 
             !isLogin ?
                 <Wrapper>
-                    <LeftWrapper>
-                        <Section />
-                    </LeftWrapper>
-                    <RightWrapper>
-                        <Header />
-                        <Title>Log In</Title>
-                        <FlashText>{flash}</FlashText>
-                        <LoginWrapper>
-                            <TextInput 
-                                type="text"
-                                placeholder='Email'
-                                value={emailInput}
-                                onChange={e => this.onChangeEmailInput(e.target.value)}
-                            />
-                            <TextInput 
-                                type="text"
-                                placeholder='Password'
-                                value={passwordInput}
-                                onChange={e => this.onChangePasswordInput(e.target.value)}
-                            />
-                            <LoginButton
-                                onClick={() => this.postLoginInput(emailInput, passwordInput)}
-                            >
-                                login
-                            </LoginButton>
-                            <NavigateSignUpText>
-                                アカウントをお持ちでない人は<Here onClick={() => Router.push('/SignUpScreen')}>こちら</Here>
-                            </NavigateSignUpText>
-                        </LoginWrapper>
-                        <ToastContainer />
-                    </RightWrapper >
+                    <Title>Log In</Title>
+                    <FlashText>{flash}</FlashText>
+                    <LoginWrapper>
+                        <TextInput 
+                            type="text"
+                            placeholder='Email'
+                            value={emailInput}
+                            onChange={e => this.onChangeEmailInput(e.target.value)}
+                        />
+                        <TextInput 
+                            type="text"
+                            placeholder='Password'
+                            value={passwordInput}
+                            onChange={e => this.onChangePasswordInput(e.target.value)}
+                        />
+                        <LoginButton
+                            onClick={() => this.postLoginInput(emailInput, passwordInput)}
+                        >
+                            login
+                        </LoginButton>
+                        <NavigateSignUpText>
+                            アカウントをお持ちでない人は<Here onClick={() => Router.push('/SignUpScreen')}>こちら</Here>
+                        </NavigateSignUpText>
+                    </LoginWrapper>
+                    <ToastContainer />
                 </Wrapper>
             :   <Wrapper>
-                    <LeftWrapper>
-                        <Section />
-                    </LeftWrapper>
-                    <RightWrapper>
-                        <Header />
-                        <AlreadyLoginText>既にログインしています。</AlreadyLoginText>
-                    </RightWrapper >
+                    <AlreadyLoginText>既にログインしています。</AlreadyLoginText>
                 </Wrapper>
         )
     }
