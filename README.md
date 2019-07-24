@@ -1,4 +1,4 @@
-# yotaiyo-to-do-app-react-rails
+# to-do-app
 
 ## OverView
 タスクの追加、完了、フィルタリング、期限の設定や認証といった機能が実装されているタスク管理アプリケーション。
@@ -10,8 +10,8 @@
 
 ## Setup
 ```
-git clone git@github.com:yotaiyo/yotaiyo-to-do-app-react-rails.git
-cd yotaiyo-to-do-app-react-rails
+git clone git@github.com:yotaiyo/to-do-app.git
+cd to-do-app
 
 - frontend
 cd frontend
