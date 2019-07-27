@@ -1,8 +1,4 @@
 class UsersController < ApplicationController
-    def index
-        @user = User.all
-        render json: @user
-    end
 
     def create
         user = params.require(:user).permit(:email, :name, :password, :password_confirmation )
