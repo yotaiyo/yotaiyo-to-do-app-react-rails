@@ -148,9 +148,7 @@ export const Todos = ({
             </TodoBody>
             {deadline ? (
               <DeadlineCard currentTime={currentTime} deadline={deadline} />
-            ) : (
-              <div />
-            )}
+            ) : null}
             <ToggleButton
               src={
                 completed
