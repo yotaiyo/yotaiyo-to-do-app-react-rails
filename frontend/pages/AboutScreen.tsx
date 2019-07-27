@@ -27,10 +27,7 @@ const AboutScreen = () => {
             <CardWrapper>
                 <CardTitle>yotaiyo-to-do-appとは</CardTitle>
                 <CardBody>
-                    フロントエンドからバックエンドまでを通して、個人で簡単なアプリケーションを作成できるようになることを目的に作成したToDoアプリです。
-                </CardBody>
-                <CardBody>
-                    ToDoの追加、完了、フィルタリング、募集期限の設定、ソートといった機能やトークンベースの認証機能が実装されています。
+                    タスクの追加、完了、フィルタリング、締め切りの設定、ソートといった機能が使用できるタスク管理アプリケーションです。
                 </CardBody>
             </CardWrapper>
             <CardWrapper>
@@ -42,7 +39,7 @@ const AboutScreen = () => {
             <CardWrapper>
                 <CardTitle>ソースコード</CardTitle>
                 <CardBody>
-                    <a href={'https://github.com/yotaiyo/yotaiyo-to-do-app-react-rails'}>Github</a>で公開しています。
+                    <a href={'https://github.com/yotaiyo/yotaiyo-to-do-app-react-rails'}>こちら</a>で公開しています。
                 </CardBody>
             </CardWrapper>
         </Wrapper>

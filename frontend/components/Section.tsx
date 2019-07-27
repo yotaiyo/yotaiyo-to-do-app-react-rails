@@ -42,7 +42,7 @@ class Section extends React.Component<SectionProps, SectionState> {
                     <SectionWrapper>ホーム</SectionWrapper>
                 </Link>
                 <Link href='/ToDoScreen'>
-                    <SectionWrapper>ToDo管理</SectionWrapper>
+                    <SectionWrapper>タスク管理</SectionWrapper>
                 </Link>
                 {isLogin ?
                     <SectionWrapper onClick={() => this.logout()}>ログアウト</SectionWrapper>

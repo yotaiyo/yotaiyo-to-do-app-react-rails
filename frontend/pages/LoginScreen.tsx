@@ -156,7 +156,7 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
                             login
                         </LoginButton>
                         <NavigateSignUpText>
-                            アカウントをお持ちでない人は<Here onClick={() => Router.push('/SignUpScreen')}>こちら</Here>
+                            アカウントをお持ちでない方は<Here onClick={() => Router.push('/SignUpScreen')}>こちら</Here>
                         </NavigateSignUpText>
                     </LoginWrapper>
                     <ToastContainer />
