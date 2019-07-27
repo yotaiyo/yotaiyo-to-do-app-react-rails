@@ -26,16 +26,21 @@
     "react-dom": "^16.8.6",
     "react-toastify": "^5.3.1",
     "styled-components": "^4.2.1",
+    "tslint": "^5.18.0",
     "typescript": "^3.5.1"
   },
   "devDependencies": {
-    "babel-plugin-styled-components": "^1.10.0"
+    "babel-plugin-styled-components": "^1.10.0",
+    "prettier": "^1.18.2",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-plugin-prettier": "^2.0.1"
   },
   "scripts": {
     "dev": "next",
     "build": "next build",
     "start": "next start",
-    "test": "jest"
+    "test": "jest",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json"
   },
   "author": "",
   "license": "ISC"
