@@ -39,11 +39,11 @@ interface ToDoScreenState  {
     showOnlyCompleted: boolean
     showOnlyActive: boolean
     isDeadline: boolean
-    showSortedTodos: boolean
     showPleaseInputTodo: boolean
     showCharacterLimit: boolean
     isLogin: boolean
     userId: number | null
+    showOnlySorted: boolean    
 }
 
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
@@ -55,11 +55,11 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
           showOnlyCompleted: false,
           showOnlyActive: false,
           isDeadline: false,
-          showSortedTodos: false,
           showCharacterLimit: false,
           showPleaseInputTodo: false,
           isLogin: false,
-          userId: null
+          userId: null,
+          showOnlySorted: false,
         }
     }
 
@@ -120,7 +120,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     render() {
-        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit, isLogin, userId } = this.state
+        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showPleaseInputTodo, showCharacterLimit, isLogin, userId, showOnlySorted } = this.state
 
         return (
             isLogin ?
@@ -141,7 +141,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         onClickCheckButton={this.onClickCheckButton}
                         showOnlyCompleted={showOnlyCompleted} 
                         showOnlyActive={showOnlyActive}
-                        showSortedTodos={showSortedTodos}
+                        showOnlySorted={showOnlySorted}
                     />
                     <Footer 
                         onClickAll={this.onClickAll} 
@@ -151,14 +151,14 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         showOnlyActive={showOnlyActive} 
                         onClickDeleteButton={this.deleteCompletedTodo}
                         onClickSort={this.onClickSort}
-                        showSortedTodos={showSortedTodos}
                         todoList={todoList}
+                        showOnlySorted={showOnlySorted}
                     />
                 <ToastContainer />
                 </Wrapper>
             : 
             <Wrapper>
-                <PleaseLoginText>ToDo管理機能を使用するにはログインする必要があります。</PleaseLoginText>
+                <PleaseLoginText>タスク管理機能を使用するにはログインする必要があります。</PleaseLoginText>
             </Wrapper>
         )}
 
@@ -195,19 +195,19 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
         }
 
         private onClickAll = () => {
-            this.setState({ showOnlyActive: false, showOnlyCompleted: false })
+            this.setState({ showOnlyActive: false, showOnlyCompleted: false, showOnlySorted: false })
         }
         
         private onClickCompleted = () => {
-            this.setState({ showOnlyActive: false, showOnlyCompleted: true })
+            this.setState({ showOnlyActive: false, showOnlyCompleted: true, showOnlySorted: false })
         }
         
         private onClickActive = () => {
-            this.setState({ showOnlyActive: true, showOnlyCompleted: false })
+            this.setState({ showOnlyActive: true, showOnlyCompleted: false, showOnlySorted: false })
         }
 
-        private onClickSort = (showSortedTodos: boolean) => {
-            this.setState({ showSortedTodos: !showSortedTodos })
+        private onClickSort = () => {
+            this.setState({ showOnlyActive: false, showOnlyCompleted: false, showOnlySorted: true })
         }
 
         private deleteCompletedTodo = (todoList: TodoType[]) => {

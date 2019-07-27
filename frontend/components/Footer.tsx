@@ -35,9 +35,9 @@ interface FooterType {
     showOnlyCompleted: boolean
     showOnlyActive: boolean
     onClickDeleteButton: (todoList: TodoType[]) => void
-    onClickSort: (showSortedTodos: boolean) => void
-    showSortedTodos: boolean
+    onClickSort: () => void
     todoList: TodoType[]
+    showOnlySorted: boolean
 }
 
 export const Footer = ({ 
@@ -48,14 +48,14 @@ export const Footer = ({
     showOnlyActive, 
     onClickDeleteButton, 
     onClickSort, 
-    showSortedTodos,
-    todoList
+    todoList,
+    showOnlySorted
     }: FooterType
     ) => {
     return (
         <Wrapper>
             <SquereButton
-                style={{ backgroundColor: !showOnlyCompleted && !showOnlyActive ? '#EEEEEE' : undefined }}
+                style={{ backgroundColor: !showOnlyCompleted && !showOnlyActive && !showOnlySorted ? '#EEEEEE' : undefined }}
                 onClick={onClickAll}
             >
                 All
@@ -72,11 +72,12 @@ export const Footer = ({
             >
                 Active
             </SquereButton>
-            <CircleButton
-                src={require('../public/images/sort.png')}
-                alt='sort'
-                onClick={() => onClickSort(showSortedTodos)}
-            />
+            <SquereButton 
+                style={{ backgroundColor: showOnlySorted ? '#EEEEEE' : undefined, borderRight: 'solid 1px #CCCCCC' }}
+                onClick={onClickSort}
+            >
+                Sorted
+            </SquereButton>
             <CircleButton 
                 src={require('../public/images/delete.png')} 
                 alt='delete' 
