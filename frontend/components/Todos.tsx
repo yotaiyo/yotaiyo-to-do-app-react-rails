@@ -94,16 +94,16 @@ interface TodosType {
     onClickCheckButton: ({ id, completed }: {id?: number, completed: boolean, deadline: Date | null}) => void
     showOnlyCompleted: boolean
     showOnlyActive: boolean
-    showSortedTodos: boolean
+    showOnlySorted: boolean
 }
 
-export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnlyActive, showSortedTodos }: TodosType) => {
+export const Todos = ({ todoList, onClickCheckButton, showOnlyCompleted, showOnlyActive, showOnlySorted }: TodosType) => {
     let listNum = 0
     if (todoList.length === 0) {
         return <Wrapper>Todoはありません。</Wrapper>
     }
 
-    const sortedTodoList = showSortedTodos ? sortTodos(todoList, currentTime) : null
+    const sortedTodoList = showOnlySorted ? sortTodos(todoList, currentTime) : null
     const todos = sortedTodoList || todoList
     return(
         <Wrapper>

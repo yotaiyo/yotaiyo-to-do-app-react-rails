@@ -39,7 +39,6 @@ interface ToDoScreenState  {
     showOnlyCompleted: boolean
     showOnlyActive: boolean
     isDeadline: boolean
-    showSortedTodos: boolean
     showPleaseInputTodo: boolean
     showCharacterLimit: boolean
     isLogin: boolean
@@ -56,7 +55,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
           showOnlyCompleted: false,
           showOnlyActive: false,
           isDeadline: false,
-          showSortedTodos: false,
           showCharacterLimit: false,
           showPleaseInputTodo: false,
           isLogin: false,
@@ -122,7 +120,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     }
 
     render() {
-        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showSortedTodos, showPleaseInputTodo, showCharacterLimit, isLogin, userId, showOnlySorted } = this.state
+        const { todoInput, todoList, showOnlyActive, showOnlyCompleted, isDeadline, showPleaseInputTodo, showCharacterLimit, isLogin, userId, showOnlySorted } = this.state
 
         return (
             isLogin ?
@@ -143,7 +141,7 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         onClickCheckButton={this.onClickCheckButton}
                         showOnlyCompleted={showOnlyCompleted} 
                         showOnlyActive={showOnlyActive}
-                        showSortedTodos={showSortedTodos}
+                        showOnlySorted={showOnlySorted}
                     />
                     <Footer 
                         onClickAll={this.onClickAll} 
@@ -153,7 +151,6 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
                         showOnlyActive={showOnlyActive} 
                         onClickDeleteButton={this.deleteCompletedTodo}
                         onClickSort={this.onClickSort}
-                        showSortedTodos={showSortedTodos}
                         todoList={todoList}
                         showOnlySorted={showOnlySorted}
                     />
@@ -209,8 +206,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             this.setState({ showOnlyActive: true, showOnlyCompleted: false, showOnlySorted: false })
         }
 
-        private onClickSort = (showSortedTodos: boolean) => {
-            this.setState({ showSortedTodos: !showSortedTodos, showOnlyActive: false, showOnlyCompleted: false, showOnlySorted: true })
+        private onClickSort = () => {
+            this.setState({ showOnlyActive: false, showOnlyCompleted: false, showOnlySorted: true })
         }
 
         private deleteCompletedTodo = (todoList: TodoType[]) => {

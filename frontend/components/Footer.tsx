@@ -35,8 +35,7 @@ interface FooterType {
     showOnlyCompleted: boolean
     showOnlyActive: boolean
     onClickDeleteButton: (todoList: TodoType[]) => void
-    onClickSort: (showSortedTodos: boolean) => void
-    showSortedTodos: boolean
+    onClickSort: () => void
     todoList: TodoType[]
     showOnlySorted: boolean
 }
@@ -49,7 +48,6 @@ export const Footer = ({
     showOnlyActive, 
     onClickDeleteButton, 
     onClickSort, 
-    showSortedTodos,
     todoList,
     showOnlySorted
     }: FooterType
@@ -76,7 +74,7 @@ export const Footer = ({
             </SquereButton>
             <SquereButton 
                 style={{ backgroundColor: showOnlySorted ? '#EEEEEE' : undefined, borderRight: 'solid 1px #CCCCCC' }}
-                onClick={() => onClickSort(showSortedTodos)}
+                onClick={onClickSort}
             >
                 Sorted
             </SquereButton>
