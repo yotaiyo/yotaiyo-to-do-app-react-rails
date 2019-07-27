@@ -1,18 +1,18 @@
-import React from 'react'
-import styled from 'styled-components'
-import axios from 'axios'
-import { TodoInput } from '../components/TodoInput'
-import { Todos } from '../components/Todos'
-import { Footer } from '../components/Footer'
-import { withRouter, SingletonRouter } from 'next/router'
-import { ToastContainer, toast } from 'react-toastify'
-import { withSectionAndHeader } from '../components/withSectionAndHeader'
+import React from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import { TodoInput } from '../components/TodoInput';
+import { Todos } from '../components/Todos';
+import { Footer } from '../components/Footer';
+import { withRouter, SingletonRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
+import { withSectionAndHeader } from '../components/withSectionAndHeader';
 
-const Wrapper = styled.div``
+const Wrapper = styled.div``;
 
 const PleaseLoginText = styled.div`
-    text-align: center;
-    margin-top: 150px;
+  text-align: center;
+  margin-top: 150px;
   font-size: 30px;
 `;
 
@@ -89,7 +89,10 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     if (this.state.userId !== null) {
       axios
         .get('http://localhost:3001/todos', {
-          params: { user_id: this.state.userId }
+          params: { user_id: this.state.userId },
+          headers: {
+            Authorization: `Token ${localStorage.getItem('token')}`
+          }
         })
         .then(results => {
           this.setState({ todoList: results.data });
@@ -103,12 +106,20 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
   postTodo(todo: TodoType) {
     const { title, completed, deadline, userId } = todo;
     axios
-      .post('http://localhost:3001/todos', {
-        title: title,
-        completed: completed,
-        deadline: deadline,
-        user_id: userId
-      })
+      .post(
+        'http://localhost:3001/todos',
+        {
+          title: title,
+          completed: completed,
+          deadline: deadline,
+          user_id: userId
+        },
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('token')}`
+          }
+        }
+      )
       .then(() => {
         this.setState({ todoInput: '' });
         this.getTodoList();
@@ -120,7 +131,11 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
 
   deleteTodo(id?: number) {
     axios
-      .delete(`http://localhost:3001/todos/${id}`)
+      .delete(`http://localhost:3001/todos/${id}`, {
+        headers: {
+          Authorization: `Token ${localStorage.getItem('token')}`
+        }
+      })
       .then(() => {
         this.getTodoList();
       })
@@ -225,10 +240,18 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
     deadline: Date | null;
   }) => {
     axios
-      .patch(`http://localhost:3001/todos/${id}`, {
-        completed: !completed,
-        deadline: deadline
-      })
+      .patch(
+        `http://localhost:3001/todos/${id}`,
+        {
+          completed: !completed,
+          deadline: deadline
+        },
+        {
+          headers: {
+            Authorization: `Token ${localStorage.getItem('token')}`
+          }
+        }
+      )
       .then(() => {
         this.getTodoList();
       })

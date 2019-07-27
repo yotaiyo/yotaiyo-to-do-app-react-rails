@@ -1,4 +1,5 @@
 class TodosController < ApplicationController
+
     def index
         @todo = Todo.where(user_id: params[:user_id])
         render json: @todo
