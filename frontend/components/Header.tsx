@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { withLoginUser, withLoginUserState } from './withLoginUser';
 
 const Wrapper = styled.div`
   font-family: 'Vollkorn', serif;
@@ -9,4 +10,17 @@ const Wrapper = styled.div`
   padding-left: 30px;
 `;
 
-export const Header = () => <Wrapper>yotaiyo-to-do-app</Wrapper>;
+interface HeaderProps extends withLoginUserState {}
+
+class Header extends React.Component<HeaderProps, {}> {
+  constructor(props: HeaderProps) {
+    super(props);
+  }
+
+  render() {
+    const { isLoading } = this.props;
+    return isLoading ? null : <Wrapper>yotaiyo-to-do-app</Wrapper>;
+  }
+}
+
+export default withLoginUser(Header);
