@@ -44,6 +44,7 @@ interface ToDoScreenState {
   isLogin: boolean;
   userId: number | null;
   showOnlySorted: boolean;
+  isLoading: boolean;
 }
 
 class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
@@ -59,7 +60,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
       showPleaseInputTodo: false,
       isLogin: false,
       userId: null,
-      showOnlySorted: false
+      showOnlySorted: false,
+      isLoading: true
     };
   }
 
@@ -82,7 +84,8 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
             }
           }
         }
-      });
+      })
+      .finally(() => this.setState({ isLoading: false }));
   }
 
   getTodoList() {
@@ -155,10 +158,11 @@ class ToDoScreen extends React.Component<ToDoScreenProps, ToDoScreenState> {
       showCharacterLimit,
       isLogin,
       userId,
-      showOnlySorted
+      showOnlySorted,
+      isLoading
     } = this.state;
 
-    return isLogin ? (
+    return isLoading ? null : isLogin ? (
       <Wrapper>
         <TodoInput
           todoInput={todoInput}

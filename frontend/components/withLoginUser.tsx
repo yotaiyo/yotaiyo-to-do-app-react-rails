@@ -6,6 +6,7 @@ interface withLoginUserProps {}
 export interface withLoginUserState {
   isLogin: boolean;
   userId: number | null;
+  isLoading: boolean;
 }
 
 export function withLoginUser(WrappedComponent: any) {
@@ -14,7 +15,8 @@ export function withLoginUser(WrappedComponent: any) {
       super(props);
       this.state = {
         isLogin: false,
-        userId: null
+        userId: null,
+        isLoading: true
       };
     }
 
@@ -31,7 +33,8 @@ export function withLoginUser(WrappedComponent: any) {
             this.setState({ isLogin: true });
             this.setState({ userId: result.data.id });
           }
-        });
+        })
+        .finally(() => this.setState({ isLoading: false }));
     }
 
     render() {
@@ -39,6 +42,7 @@ export function withLoginUser(WrappedComponent: any) {
         <WrappedComponent
           isLogin={this.state.isLogin}
           userId={this.state.userId}
+          isLoading={this.state.isLoading}
           {...this.props}
         />
       );

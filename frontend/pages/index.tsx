@@ -33,8 +33,8 @@ class HomeScreen extends React.Component<HomeScreenProps, HomeScreenState> {
   }
 
   render() {
-    const { isLogin } = this.props;
-    return (
+    const { isLogin, isLoading } = this.props;
+    return isLoading ? null : (
       <Wrapper>
         <Title>Welcome to yotaiyo-to-do-app</Title>
         {!isLogin ? (

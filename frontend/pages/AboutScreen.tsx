@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { withSectionAndHeader } from '../components/withSectionAndHeader';
+import { withLoginUser, withLoginUserState } from '../components/withLoginUser';
 
 const Wrapper = styled.div``;
 
@@ -21,33 +22,43 @@ const CardBody = styled.div`
   margin-left: 20px;
 `;
 
-const AboutScreen = () => {
-  return (
-    <Wrapper>
-      <CardWrapper>
-        <CardTitle>yotaiyo-to-do-appとは</CardTitle>
-        <CardBody>
-          タスクの追加、完了、フィルタリング、締め切りの設定、ソートといった機能が使用できるタスク管理アプリケーションです。
-        </CardBody>
-      </CardWrapper>
-      <CardWrapper>
-        <CardTitle>使用技術</CardTitle>
-        <CardBody>
-          フロントエンド: Next.js、バックエンド: Ruby on
-          Railsで構成されています。
-        </CardBody>
-      </CardWrapper>
-      <CardWrapper>
-        <CardTitle>ソースコード</CardTitle>
-        <CardBody>
-          <a href={'https://github.com/yotaiyo/yotaiyo-to-do-app-react-rails'}>
-            こちら
-          </a>
-          で公開しています。
-        </CardBody>
-      </CardWrapper>
-    </Wrapper>
-  );
-};
+interface AboutProps extends withLoginUserState {}
 
-export default withSectionAndHeader(AboutScreen);
+class AboutScreen extends React.Component<AboutProps, {}> {
+  constructor(props: AboutProps) {
+    super(props);
+  }
+  render() {
+    const { isLoading } = this.props;
+    return isLoading ? null : (
+      <Wrapper>
+        <CardWrapper>
+          <CardTitle>yotaiyo-to-do-appとは</CardTitle>
+          <CardBody>
+            タスクの追加、完了、フィルタリング、締め切りの設定、ソートといった機能が使用できるタスク管理アプリケーションです。
+          </CardBody>
+        </CardWrapper>
+        <CardWrapper>
+          <CardTitle>使用技術</CardTitle>
+          <CardBody>
+            フロントエンド: Next.js、バックエンド: Ruby on
+            Railsで構成されています。
+          </CardBody>
+        </CardWrapper>
+        <CardWrapper>
+          <CardTitle>ソースコード</CardTitle>
+          <CardBody>
+            <a
+              href={'https://github.com/yotaiyo/yotaiyo-to-do-app-react-rails'}
+            >
+              こちら
+            </a>
+            で公開しています。
+          </CardBody>
+        </CardWrapper>
+      </Wrapper>
+    );
+  }
+}
+
+export default withLoginUser(withSectionAndHeader(AboutScreen));

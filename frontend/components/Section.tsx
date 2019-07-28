@@ -32,8 +32,8 @@ class Section extends React.Component<SectionProps, SectionState> {
   }
 
   render() {
-    const { isLogin } = this.props;
-    return (
+    const { isLogin, isLoading } = this.props;
+    return isLoading ? null : (
       <Wrapper>
         <Link href="/AboutScreen">
           <SectionWrapper>yotaiyo-to-do-appとは</SectionWrapper>

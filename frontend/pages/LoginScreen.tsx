@@ -1,11 +1,11 @@
-import React from 'react'
-import styled from 'styled-components'
-import axios from 'axios'
-import Router from 'next/router'
-import { withRouter, SingletonRouter } from 'next/router'
-import { ToastContainer, toast } from 'react-toastify'
-import { withLoginUser, withLoginUserState } from '../components/withLoginUser'
-import { withSectionAndHeader } from '../components/withSectionAndHeader'
+import React from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import Router from 'next/router';
+import { withRouter, SingletonRouter } from 'next/router';
+import { ToastContainer, toast } from 'react-toastify';
+import { withLoginUser, withLoginUserState } from '../components/withLoginUser';
+import { withSectionAndHeader } from '../components/withSectionAndHeader';
 
 const Wrapper = styled.div``;
 
@@ -137,9 +137,9 @@ class LoginScreen extends React.Component<LoginProps, LoginState> {
 
   render() {
     const { emailInput, passwordInput, flash } = this.state;
-    const { isLogin } = this.props;
+    const { isLogin, isLoading } = this.props;
 
-    return !isLogin ? (
+    return isLoading ? null : !isLogin ? (
       <Wrapper>
         <Title>Log In</Title>
         <FlashText>{flash}</FlashText>
