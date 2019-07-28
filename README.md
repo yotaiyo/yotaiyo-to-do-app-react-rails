@@ -1,12 +1,11 @@
 # to-do-app
 
-## OverView
-タスクの追加、完了、フィルタリング、期限の設定や認証といった機能が実装されているタスク管理アプリケーション。  
-
-=> 以下のレポジトリに移植（2019/7/28）
+## 以下のレポジトリに移植（2019/7/28）
 - https://github.com/yotaiyo/to-do-app-frontend
 - https://github.com/yotaiyo/to-do-app-backend
 
+## OverView
+タスクの追加、完了、フィルタリング、期限の設定や認証といった機能が実装されているタスク管理アプリケーション。  
 
 ## 使用した技術
 - TypeScript
