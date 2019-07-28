@@ -129,9 +129,9 @@ class SignUpScreen extends React.Component<SignUpProps, SignUpState> {
       passwordConfirmationInput,
       flashList
     } = this.state;
-    const { isLogin } = this.props;
+    const { isLogin, isLoading } = this.props;
 
-    return !isLogin ? (
+    return isLoading ? null : !isLogin ? (
       <Wrapper>
         <Title>Sign Up</Title>
         <Flashs flashList={flashList} />
