@@ -12,17 +12,21 @@
 ```
 git clone git@github.com:yotaiyo/to-do-app.git
 cd to-do-app
+```
 
-- frontend
+### frontend
+```
 cd frontend
 yarn
 yarn test
 yarn run dev
-http://localhost:3000
+```
+- open http://localhost:3000
 
-- backend
+### backend
+```
 cd backend
 bin/rails test
 bin/rails s -p 3001
-http://localhost:3001
-``` 
+```
+- open http://localhost:3001 
